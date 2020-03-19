@@ -4,18 +4,26 @@ import Select from '../components/Select';
 import { getPosts } from '../redux/actions/posts.action';
 import { connect } from 'react-redux';
 import PostList from '../components/PostList';
+import BasicPagination from '../components/BasicPagination';
+
 
 function Main(props) {
-    const { getPosts, posts, isLoading } = props;
+    const { getPosts, posts, isLoading, totalPages } = props;
     return (
         <>
             <Header />
             <main>
                 <Select onclick={getPosts} />
-                {isLoading ? <h4>Loading...</h4> 
-                : <div className="content-events"><PostList posts={posts} /></div>}
+                {isLoading ? <h4>Loading...</h4>
+                    : <div className="content-events"><PostList posts={posts} /></div>}
 
             </main>
+            <div className='pagination'>
+                <BasicPagination
+                    totalPages={totalPages}
+                />
+            </div>
+
         </>
     );
 }
@@ -24,7 +32,8 @@ function mapStateToProps(store) {
     console.log(store.posts.posts)
     return {
         posts: store.posts.posts,
-        isLoading: store.posts.isLoading
+        isLoading: store.posts.isLoading,
+        totalPages: store.posts.totalPages
     }
 }
 

@@ -2,7 +2,9 @@ const initialState = {
     posts: [],
     isError: false,
     isLoading: false,
-    searchBy: ''
+    searchBy: '',
+    currentPage: 1,
+    totalPages: null
 };
 
 export default function posts(state = initialState, action) {
@@ -26,6 +28,16 @@ export default function posts(state = initialState, action) {
             return {
                 ...state,
                 isError: action.payload
+            }
+        case 'SET_CURRENT_PAGE':
+            return {
+                ...state,
+                currentPage: action.payload
+            }
+        case 'GET_TOTAL_PAGES':
+            return {
+                ...state,
+                totalPages: action.payload
             }
         default:
             return state;

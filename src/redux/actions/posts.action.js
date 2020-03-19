@@ -25,3 +25,17 @@ export function loading(bool) {
         payload: bool
     }
 }
+
+export function setCurrentPage(num) {
+    return {
+        type: 'SET_CURRENT_PAGE',
+        payload: num
+    }
+}
+
+export function getTotalPages(num) {
+    return {
+        type: 'GET_TOTAL_PAGES',
+        payload: num
+    }
+}
