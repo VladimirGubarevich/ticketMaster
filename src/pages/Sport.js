@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
+import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
 import Header from '../components/Header';
 import Content from '../components/Content';
@@ -13,13 +14,15 @@ import { setCountry, setKeyword, setClassification, setCurrentPage } from '../re
 
 import { getSportPosts } from '../redux/actions/posts.action';
 
+
+import TextField from '@material-ui/core/TextField'
 const useStyles = makeStyles(theme => ({
     button: {
         margin: theme.spacing(2)
     },
     formControl: {
-        margin: theme.spacing(2),
-        minWidth: 320,
+        margin: theme.spacing(1),
+        minWidth: 300,
     },
 }));
 
@@ -31,6 +34,10 @@ export function Sport(props) {
     function buttonHandler() {
         setCurrentPage(0);
         getSportPosts();
+    }
+
+    function inputHundler(e) {
+        setKeyword(e.target.value)
     }
 
     useEffect(() => {
@@ -52,10 +59,13 @@ export function Sport(props) {
                     items={country}
                     onchange={setCountry}
                 />
-
+                <FormControl className={classes.formControl} >
+                    <TextField id="standard-basic" label="Ключевое слово" onChange={inputHundler} />
+                </FormControl>
                 <Button className={classes.button} variant="contained" onClick={buttonHandler} color="primary">
                     Show
-      </Button>
+                </Button>
+
             </div>
             <Content
                 isLoading={isLoading}
