@@ -1,6 +1,7 @@
 const initialState = {
 	keyword: '',
 	country: '',
+	city: '',
 	classification: '',
 	page: 0
 }
@@ -16,6 +17,11 @@ export default function searchReduser(state = initialState, action) {
 			return {
 				...state,
 				country: action.payload
+			}
+		case 'SET_CITY':
+			return {
+				...state,
+				city: action.payload
 			}
 		case 'SET_CLASSIFICATION':
 			return {

@@ -12,6 +12,13 @@ export function setCountry(country) {
 	}
 }
 
+export function setCity(city) {
+	return {
+		type: 'SET_CITY',
+		payload: city
+	}
+}
+
 export function setClassification(clf) {
 	return {
 		type: 'SET_CLASSIFICATION',

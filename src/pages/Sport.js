@@ -10,7 +10,7 @@ import Select from '../components/Select';
 import { sportCategory } from '../enum/sportCategory.enums';
 import { country } from '../enum/country.enums';
 
-import { setCountry, setKeyword, setClassification, setCurrentPage } from '../redux/actions/search.action';
+import { setCountry, setKeyword, setClassification, setCurrentPage, setCity } from '../redux/actions/search.action';
 
 import { getSportPosts } from '../redux/actions/posts.action';
 
@@ -22,12 +22,21 @@ const useStyles = makeStyles(theme => ({
     },
     formControl: {
         margin: theme.spacing(1),
-        minWidth: 300,
+        minWidth: 250,
     },
 }));
 
 export function Sport(props) {
-    const { getSportPosts, posts, isLoading, setCountry, setKeyword, setCurrentPage, setClassification, totalPages } = props;
+    const { getSportPosts
+        , posts
+        , isLoading
+        , setCountry
+        , setKeyword
+        , setCurrentPage
+        , setClassification
+        , totalPages
+        , setCity
+    } = props;
 
     const classes = useStyles();
 
@@ -36,8 +45,12 @@ export function Sport(props) {
         getSportPosts();
     }
 
-    function inputHundler(e) {
+    function keywordHundler(e) { 
         setKeyword(e.target.value)
+    }
+
+    function cityHundler(e) {
+        setCity(e.target.value)
     }
 
     useEffect(() => {
@@ -48,7 +61,7 @@ export function Sport(props) {
     return (
         <>
             <Header />
-            <div className="search-bar">
+            <form className="search-bar">
                 <Select
                     lable={'Вид спорта'}
                     items={sportCategory}
@@ -60,13 +73,15 @@ export function Sport(props) {
                     onchange={setCountry}
                 />
                 <FormControl className={classes.formControl} >
-                    <TextField id="standard-basic" label="Ключевое слово" onChange={inputHundler} />
+                    <TextField id="standard-basic" label="Ключевое слово" onChange={keywordHundler} autoComplete="off"/>
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                    <TextField id="standard-basic" label="Город" onChange={cityHundler} autoComplete="off"/>
                 </FormControl>
                 <Button className={classes.button} variant="contained" onClick={buttonHandler} color="primary">
                     Show
                 </Button>
-
-            </div>
+            </form>
             <Content
                 isLoading={isLoading}
                 posts={posts}
@@ -95,7 +110,8 @@ function mapDispatchToProps(dispatch) {
         setCountry: country => dispatch(setCountry(country)),
         setKeyword: keyWord => dispatch(setKeyword(keyWord)),
         setClassification: clf => dispatch(setClassification(clf)),
-        setCurrentPage: page => dispatch(setCurrentPage(page))
+        setCurrentPage: page => dispatch(setCurrentPage(page)),
+        setCity: city => dispatch(setCity(city))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Sport);

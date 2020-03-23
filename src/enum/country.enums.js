@@ -1,33 +1,6 @@
-// export const country = [
-// 	{
-// 		value: '*',
-// 		name: 'Любая'
-// 	},
-// 	{
-// 		value: 'pl',
-// 		name: 'Польша'
-// 	},
-// 	{
-// 		value: 'en-us',
-// 		name: 'США'
-// 	},
-// 	{
-// 		value: 'fr',
-// 		name: 'Франция'
-// 	},
-// 	{
-// 		value: 'en',
-// 		name: 'Англия'
-// 	},
-// 	{
-// 		value: 'ru',
-// 		name: 'Россия'
-// 	}
-// ]
-
 export const country = [
 	{
-		value: '*',
+		value: '',
 		name: 'Любая'
 	},
 	{
@@ -39,7 +12,11 @@ export const country = [
 		name: 'США'
 	},
 	{
-		value: 'FR',
-		name: 'Франция'
-	}
+		value: 'BE',
+		name: 'Бельгия'
+	},
+	{
+		value: 'GB',
+		name: 'Англия'
+	},
 ]

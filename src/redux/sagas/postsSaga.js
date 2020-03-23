@@ -28,11 +28,13 @@ function* fetchSportPosts() {
         yield put(ErrorFetchData(false));
         yield put(loading(true));
         const search = yield select(getItemsFromState);
-        let result = yield call(getSportPosts, search.keyword || 'sports', search.classification, search.country, search.page);
+        const queryString = [search.keyword, search.classification, search.country, search.page, search.city]
+        let result = yield call(getSportPosts, ...queryString);
         if (!result._embedded) {
             yield put(fetchPostsSuccess([]));
+        } else {
+            yield put(fetchPostsSuccess(result._embedded.events));
         }
-        yield put(fetchPostsSuccess(result._embedded.events));
         yield put(getTotalPages(result.page.totalPages))
     } catch {
         yield put(loading(false));
