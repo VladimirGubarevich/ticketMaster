@@ -3,8 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+// import IconButton from '@material-ui/core/IconButton';
+// import MenuIcon from '@material-ui/icons/Menu';
+import { NavLink } from 'react-router-dom';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -14,7 +16,7 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2),
   },
   title: {
-    flexGrow: 1,
+    // flexGrow: 1,
   },
 }));
 
@@ -25,12 +27,12 @@ export default function ButtonAppBar() {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-          TicketMasterClon
+          <Typography variant="h5" className={classes.title}>
+            <NavLink to="/" activeClassName="active" className="nav-link">TicketMasterClon</NavLink>
           </Typography>
+          <div className="nav-bar__kategory">
+            <NavLink to="/sports" activeClassName="active" className="nav-link">sport</NavLink>
+          </div>
         </Toolbar>
       </AppBar>
     </div>

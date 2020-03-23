@@ -21,3 +21,19 @@ code {
   justify-content: center;
   margin: 0 0 2em;
 }
+
+.nav-bar__kategory{
+  display: flex;
+  justify-content: start;
+  
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  margin-left: 1em;
+}
+
+.search-bar {
+  display: flex;
+}

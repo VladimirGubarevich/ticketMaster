@@ -2,7 +2,6 @@ const initialState = {
     posts: [],
     isError: false,
     isLoading: false,
-    searchBy: '',
     currentPage: 1,
     totalPages: null
 };
@@ -13,11 +12,6 @@ export default function posts(state = initialState, action) {
             return {
                 ...state,
                 posts: action.payload
-            }
-        case 'GET_POSTS':
-            return {
-                ...state,
-                searchBy: action.payload
             }
         case 'ERROR_FETCH_DATA':
             return {

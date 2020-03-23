@@ -1,7 +1,12 @@
-export function getPosts(val) {
+export function getPosts() {
     return {
-        type: 'GET_POSTS',
-        payload: val
+        type: 'GET_POSTS'
+    }
+}
+
+export function getSportPosts() {
+    return {
+        type: 'GET_SPORT_POSTS'
     }
 }
 

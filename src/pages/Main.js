@@ -1,35 +1,38 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '../components/Header';
-import Select from '../components/Select';
 import { getPosts } from '../redux/actions/posts.action';
 import { connect } from 'react-redux';
-import PostList from '../components/PostList';
+import Content from '../components/Content';
 import BasicPagination from '../components/BasicPagination';
+import { setCurrentPage } from '../redux/actions/search.action';
 
 
 function Main(props) {
-    const { getPosts, posts, isLoading, totalPages } = props;
+    const { getPosts, posts, isLoading, totalPages, setCurrentPage } = props;
+
+    useEffect(() => {
+        getPosts();
+    }, [getPosts]);
     return (
         <>
             <Header />
             <main>
-                <Select onclick={getPosts} />
-                {isLoading ? <h4>Loading...</h4>
-                    : <div className="content-events"><PostList posts={posts} /></div>}
-
+                <Content
+                    isLoading={isLoading}
+                    posts={posts}
+                />
             </main>
             <div className='pagination'>
                 <BasicPagination
                     totalPages={totalPages}
+                    setCurrentPage={setCurrentPage}
                 />
             </div>
-
         </>
     );
 }
 
 function mapStateToProps(store) {
-    console.log(store.posts.posts)
     return {
         posts: store.posts.posts,
         isLoading: store.posts.isLoading,
@@ -39,7 +42,8 @@ function mapStateToProps(store) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getPosts: searh => dispatch(getPosts(searh))
+        getPosts: searh => dispatch(getPosts(searh)),
+        setCurrentPage: page => dispatch(setCurrentPage(page))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

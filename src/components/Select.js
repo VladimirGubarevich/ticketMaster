@@ -4,11 +4,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(theme => ({
     button: {
-        // display: 'block',
         margin: theme.spacing(2)
     },
     formControl: {
@@ -18,13 +16,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function ControlledOpenSelect(props) {
-    const { onclick } = props;
+    const { items, lable, onchange } = props;
     const classes = useStyles();
-    const [country, setCountry] = React.useState('');
+    const [value, setValue] = React.useState('');
     const [open, setOpen] = React.useState(false);
 
     const handleChange = event => {
-        setCountry(event.target.value);
+        setValue(event.target.value);
+        onchange(event.target.value)
     };
 
     const handleClose = () => {
@@ -35,34 +34,22 @@ export default function ControlledOpenSelect(props) {
         setOpen(true);
     };
 
-    const clickHundler = () => {
-        onclick(country);
-    }
-
     return (
         <div>
             <FormControl className={classes.formControl}>
-                <InputLabel id="demo-controlled-open-select-label">Выберите страну</InputLabel>
+    <InputLabel id="demo-controlled-open-select-label">{lable}</InputLabel>
                 <Select m={2}
                     labelId="demo-controlled-open-select-label"
                     id="demo-controlled-open-select"
                     open={open}
                     onClose={handleClose}
                     onOpen={handleOpen}
-                    value={country}
+                    value={value}
                     onChange={handleChange}
                 >
-                    <MenuItem value="">
-                        <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={'RU'}>Russia</MenuItem>
-                    <MenuItem value={'US'}>Usa</MenuItem>
-                    <MenuItem value={'PL'}>Poland</MenuItem>
+                    {items.map((item, index) => <MenuItem value={item.value} key={index}>{item.name}</MenuItem>)}
                 </Select>
             </FormControl>
-            <Button className={classes.button} variant="contained" onClick={clickHundler} color="primary">
-                Show
-      </Button>
         </div>
     );
 }
