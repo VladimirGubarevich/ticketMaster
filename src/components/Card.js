@@ -19,9 +19,8 @@ const useStyles = makeStyles({
 });
 
 export default function MeadiaCard(props) {
-    const { name, image, locale, _links } = props;
+    const { name, image, country, _links, city, date } = props;
     const classes = useStyles();
-
     return (
         <Card className={classes.root} p={1}>
             <CardActionArea>
@@ -35,7 +34,13 @@ export default function MeadiaCard(props) {
                         {name}
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
-                        {locale}
+                        {country}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                        {city}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                        {date}
                     </Typography>
                 </CardContent>
             </CardActionArea>
