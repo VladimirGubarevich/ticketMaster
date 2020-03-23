@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -13,13 +13,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function ControlledOpenSelect(props) {
-    const { items, lable, onchange } = props;
+    const { items, lable, onchange, value } = props;
     const classes = useStyles();
-    const [value, setValue] = React.useState('');
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [selectValue, setSelectValue] = useState('');
 
     const handleChange = event => {
-        setValue(event.target.value);
+        setSelectValue(event.target.value);
         onchange(event.target.value)
     };
 
@@ -31,18 +31,22 @@ export default function ControlledOpenSelect(props) {
         setOpen(true);
     };
 
+    useEffect(() => {
+        value && setSelectValue(value);
+    }, [value])
+
     return (
         <div>
             <FormControl className={classes.formControl}>
-    <InputLabel id="demo-controlled-open-select-label">{lable}</InputLabel>
+                <InputLabel id="demo-controlled-open-select-label">{lable}</InputLabel>
                 <Select m={2}
                     labelId="demo-controlled-open-select-label"
                     id="demo-controlled-open-select"
                     open={open}
                     onClose={handleClose}
                     onOpen={handleOpen}
-                    value={value}
                     onChange={handleChange}
+                    value={selectValue}
                 >
                     {items.map((item, index) => <MenuItem value={item.value} key={index}>{item.name}</MenuItem>)}
                 </Select>

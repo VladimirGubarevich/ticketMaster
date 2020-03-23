@@ -14,7 +14,7 @@ function* fetchData() {
         yield put(ErrorFetchData(false));
         yield put(loading(true));
         const search = yield select(getItemsFromState);
-        const res = yield call(getPostsByLocal, search.country);
+        const res = yield call(getPostsByLocal, search.country, search.city);
         yield put(fetchPostsSuccess(res._embedded.events));
         yield put(getTotalPages(res.page.totalPages))
     } catch {

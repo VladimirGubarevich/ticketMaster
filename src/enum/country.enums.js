@@ -1,6 +1,6 @@
 export const country = [
 	{
-		value: '',
+		value: ' ',
 		name: 'Любая'
 	},
 	{

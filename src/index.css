@@ -25,7 +25,6 @@ code {
 
 .nav-bar__kategory{
   display: flex;
-  justify-content: start;
   
 }
 
@@ -37,4 +36,8 @@ code {
 
 .search-bar {
   display: flex;
+}
+
+.active {
+  font-size: 1.2em;
 }
