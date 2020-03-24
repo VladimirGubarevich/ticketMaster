@@ -12,3 +12,8 @@ export function getSportPosts(keyword, clf, country, city, page ) {
     return axios.get(`${BASE_URL}events.json?keyword=${keyword}&apikey=${API_KEY}&classificationName=sports&classificationId=${clf}&countryCode=${country}&city=${city}&page=${page}`)
         .then(res => res.data)
 }
+
+export function getFamilyPosts(keyword, clf, country, city, page ) {
+    return axios.get(`${BASE_URL}events.json?keyword=${keyword}&apikey=${API_KEY}&classificationName=family&classificationId=${clf}&countryCode=${country}&city=${city}&page=${page}`)
+        .then(res => res.data)
+}

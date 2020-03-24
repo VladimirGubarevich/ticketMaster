@@ -23,10 +23,11 @@ export default function ButtonAppBar() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h5" className={classes.title}>
-            <NavLink to="/" activeClassName="active" className="nav-link">TicketMasterClon</NavLink>
+            <NavLink exact to="/" activeClassName="active" className="nav-link">TicketMasterClon</NavLink>
           </Typography>
           <div className="nav-bar__kategory">
             <NavLink to="/sports" activeClassName="active" className="nav-link">sport</NavLink>
+            <NavLink to="/family" activeClassName="active" className="nav-link">family</NavLink>
           </div>
         </Toolbar>
       </AppBar>

@@ -1,8 +1,14 @@
 const initialState = {
-	search: {
-		keyword: '',
+	location: {
 		country: '',
-		city: '',
+		city: ''
+	},
+	searchSports: {
+		keyword: '',
+		classification: ''
+	},
+	searchFamily: {
+		keyword: '',
 		classification: ''
 	},
 	page: 0
@@ -10,35 +16,20 @@ const initialState = {
 
 export default function searchReduser(state = initialState, action) {
 	switch (action.type) {
-		case 'SET_KEYWORD':
+		case 'SET_LOCATION':
 			return {
 				...state,
-				keyword: action.payload
+				location: action.payload
 			}
-		case 'SET_COUNTRY':
+		case 'SEARCH_SPOTRS':
 			return {
 				...state,
-				country: action.payload
+				searchSports: action.payload
 			}
-		case 'SET_CITY':
+		case 'SEARCH_FAMILY':
 			return {
 				...state,
-				city: action.payload
-			}
-		case 'SET_CLASSIFICATION':
-			return {
-				...state,
-				classification: action.payload
-			}
-		case 'SET_CURRENT_PAGE':
-			return {
-				...state,
-				page: action.payload
-			}
-		case 'SEARCH':
-			return {
-				...state,
-				search: action.payload
+				searchFamily: action.payload
 			}
 		default:
 			return state

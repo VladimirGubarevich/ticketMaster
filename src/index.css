@@ -36,8 +36,9 @@ code {
 
 .search-bar {
   display: flex;
+  margin-left: 2em;
 }
 
 .active {
-  font-size: 1.2em;
+  text-shadow: 0 0 2px rgb(8, 5, 5);
 }

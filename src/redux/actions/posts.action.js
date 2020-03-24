@@ -12,6 +12,13 @@ export function getSportPosts(val) {
     }
 }
 
+export function getFamilyPosts(val) {
+    return {
+        type: 'GET_FAMILY_POSTS',
+        payload: val
+    }
+}
+
 export function fetchPostsSuccess(posts) {
     return {
         type: 'FETCH_POSTS_SUCCESS',

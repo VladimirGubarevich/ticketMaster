@@ -32,11 +32,11 @@ export default function ControlledOpenSelect(props) {
 
     useEffect(() => {
         value && setSelectValue(value);
-    }, []);
+    }, [value]);
 
     useEffect(() => {
         onchange(selectValue)
-    }, [selectValue]);
+    }, [selectValue, onchange]);
 
     return (
         <div>

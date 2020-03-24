@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import { getPosts } from '../redux/actions/posts.action';
 import BasicPagination from '../components/BasicPagination';
-import { search } from '../redux/actions/search.action';
+import { setLocation } from '../redux/actions/search.action';
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -23,17 +23,18 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Main(props) {
-    const { getPosts, posts, isLoading, totalPages, storeFilter, search } = props;
+    const { getPosts, posts, isLoading, totalPages, storeLocation, setLocation } = props;
     const classes = useStyles();
     const [page, setPage] = useState(0);
-    const filter = { ...storeFilter };
+
+    const location = { ...storeLocation };
 
     function countryHandler(country) {
-        filter.country = country;
+        location.country = country;
     }
 
     function cityHundler(city) {
-        filter.city = city;
+        location.city = city;
     }
 
     function setCurrentPage(page) {
@@ -43,13 +44,13 @@ function Main(props) {
 
     function buttonHandler() {
         setPage(0)
-        search(filter);
-        getPosts();
+        setLocation(location);
+        getPosts(0);
     }
 
     useEffect(() => {
         getPosts(0);
-    }, []);
+    }, [getPosts]);
     return (
         <>
             <Header />
@@ -58,12 +59,12 @@ function Main(props) {
                     lable={'Выберите страну'}
                     items={country}
                     onchange={countryHandler}
-                    value={filter.country}
+                    value={location.country}
                 />
                 <FormControl className={classes.formControl}>
                     <Input
                         label={'Город'}
-                        value={filter.city}
+                        value={location.city}
                         callback={cityHundler}
                     />
                 </FormControl>
@@ -93,14 +94,14 @@ function mapStateToProps(store) {
         posts: store.posts.posts,
         isLoading: store.posts.isLoading,
         totalPages: store.posts.totalPages,
-        storeFilter: store.search.search
+        storeLocation: store.search.location
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         getPosts: searh => dispatch(getPosts(searh)),
-        search: val => dispatch(search(val))
+        setLocation: val => dispatch(setLocation(val))
     }
 }
 

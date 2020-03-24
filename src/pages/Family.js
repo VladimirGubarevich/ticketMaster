@@ -9,9 +9,9 @@ import { country } from '../enum/country.enums';
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import BasicPagination from '../components/BasicPagination';
-import { sportCategory } from '../enum/sportCategory.enums';
-import { getSportPosts } from '../redux/actions/posts.action';
-import { searchSports, setLocation } from '../redux/actions/search.action';
+import { familyCategory } from '../enum/familyCategory';
+import { getFamilyPosts } from '../redux/actions/posts.action';
+import { searchFamily, setLocation } from '../redux/actions/search.action';
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -23,20 +23,19 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export function Sport(props) {
-    const { getSportPosts
+export function Family(props) {
+    const { getFamilyPosts
         , posts
         , isLoading
         , totalPages
         , storeFilter
-        , searchSports
+        , searchFamily
         , storeLocation
         , setLocation
     } = props;
 
     const [page, setPage] = useState(0);
     const classes = useStyles();
-
     const filter = { ...storeFilter };
     const location = { ...storeLocation };
 
@@ -57,20 +56,21 @@ export function Sport(props) {
     }
 
     function setCurrentPage(page) {
-        getSportPosts(page);
+        getFamilyPosts(page);
         setPage(page);
+        filter.page = page;
     }
 
     function buttonHandler() {
         setPage(0)
-        searchSports(filter);
+        searchFamily(filter);
         setLocation(location);
-        getSportPosts(0);
+        getFamilyPosts(0);
     }
 
     useEffect(() => {
-        getSportPosts(0);
-    }, [getSportPosts]);
+        getFamilyPosts(0);
+    }, [getFamilyPosts]);
 
     return (
         <>
@@ -90,8 +90,8 @@ export function Sport(props) {
                     />
                 </FormControl>
                 <Select
-                    lable={'Вид спорта'}
-                    items={sportCategory}
+                    lable={'Категория'}
+                    items={familyCategory}
                     onchange={classificationHandler}
                     value={filter.classification}
                 />
@@ -126,16 +126,16 @@ function mapStateToProps(store) {
         posts: store.posts.posts,
         isLoading: store.posts.isLoading,
         totalPages: store.posts.totalPages,
-        storeFilter: store.search.searchSports,
+        storeFilter: store.search.searchFamily,
         storeLocation: store.search.location
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        getSportPosts: searh => dispatch(getSportPosts(searh)),
-        searchSports: val => dispatch(searchSports(val)),
+        getFamilyPosts: searh => dispatch(getFamilyPosts(searh)),
+        searchFamily: val => dispatch(searchFamily(val)),
         setLocation: val => dispatch(setLocation(val))
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Sport);
+export default connect(mapStateToProps, mapDispatchToProps)(Family);
