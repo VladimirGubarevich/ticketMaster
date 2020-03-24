@@ -20,7 +20,6 @@ export default function ControlledOpenSelect(props) {
 
     const handleChange = event => {
         setSelectValue(event.target.value);
-        onchange(event.target.value)
     };
 
     const handleClose = () => {
@@ -33,7 +32,11 @@ export default function ControlledOpenSelect(props) {
 
     useEffect(() => {
         value && setSelectValue(value);
-    }, [value])
+    }, []);
+
+    useEffect(() => {
+        onchange(selectValue)
+    }, [selectValue]);
 
     return (
         <div>

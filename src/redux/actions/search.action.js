@@ -32,3 +32,10 @@ export function setCurrentPage(page) {
 		payload: page
 	}
 }
+
+export function search(val) {
+	return {
+		type: 'SEARCH',
+		payload: val
+	}
+}

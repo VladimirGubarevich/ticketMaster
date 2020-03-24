@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Input from '../components/Input';
 import Select from '../components/Select';
@@ -11,7 +11,7 @@ import FormControl from '@material-ui/core/FormControl';
 import BasicPagination from '../components/BasicPagination';
 import { sportCategory } from '../enum/sportCategory.enums';
 import { getSportPosts } from '../redux/actions/posts.action';
-import { setCountry, setKeyword, setClassification, setCurrentPage, setCity } from '../redux/actions/search.action';
+import { search } from '../redux/actions/search.action';
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -27,15 +27,12 @@ export function Sport(props) {
     const { getSportPosts
         , posts
         , isLoading
-        , setCountry
-        , setKeyword
-        , setCurrentPage
-        , setClassification
         , totalPages
-        , setCity
         , storeFilter
+        , search
     } = props;
 
+    const [page, setPage] = useState(0);
     const classes = useStyles();
     const filter = { ...storeFilter };
 
@@ -51,23 +48,24 @@ export function Sport(props) {
         filter.city = city;
     }
 
-    function countryHandler(coutry) {
-        filter.coutry = coutry;
+    function countryHandler(country) {
+        filter.country = country;
+    }
+
+    function setCurrentPage(page) {
+        getSportPosts(page);
+        setPage(page);
     }
 
     function buttonHandler() {
-        setClassification(filter.classification);
-        setKeyword(filter.keyword);
-        setCountry(filter.coutry);
-        setCity(filter.city);
-        setCurrentPage(0);
-        getSportPosts();
+        setPage(0)
+        search(filter);
+        getSportPosts(0);
     }
 
     useEffect(() => {
-        getSportPosts();
-        setCurrentPage(0);
-    }, [getSportPosts, setCurrentPage]);
+        getSportPosts(0);
+    }, []);
 
     return (
         <>
@@ -111,29 +109,26 @@ export function Sport(props) {
                 <BasicPagination
                     setCurrentPage={setCurrentPage}
                     totalPages={totalPages}
+                    page={page}
                 />
             </div>
         </>
     );
 }
 
-function mapStateToProps(store) { 
+function mapStateToProps(store) {
     return {
         posts: store.posts.posts,
         isLoading: store.posts.isLoading,
         totalPages: store.posts.totalPages,
-        storeFilter: store.search
+        storeFilter: store.search.search
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         getSportPosts: searh => dispatch(getSportPosts(searh)),
-        setCountry: country => dispatch(setCountry(country)),
-        setKeyword: keyword => dispatch(setKeyword(keyword)),
-        setClassification: clf => dispatch(setClassification(clf)),
-        setCurrentPage: page => dispatch(setCurrentPage(page)),
-        setCity: city => dispatch(setCity(city))
+        search: val => dispatch(search(val))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Sport);

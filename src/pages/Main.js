@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import Input from '../components/Input';
 import Select from '../components/Select';
@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import { getPosts } from '../redux/actions/posts.action';
 import BasicPagination from '../components/BasicPagination';
-import { setCurrentPage, setCountry, setCity } from '../redux/actions/search.action';
+import { search } from '../redux/actions/search.action';
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -22,25 +22,34 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-
 function Main(props) {
-    const { getPosts, posts, isLoading, totalPages, setCurrentPage, setCountry, setCity, storeFilter } = props;
+    const { getPosts, posts, isLoading, totalPages, storeFilter, search } = props;
     const classes = useStyles();
+    const [page, setPage] = useState(0);
     const filter = { ...storeFilter };
+
+    function countryHandler(country) {
+        filter.country = country;
+    }
 
     function cityHundler(city) {
         filter.city = city;
     }
 
+    function setCurrentPage(page) {
+        getPosts(page);
+        setPage(page);
+    }
+
     function buttonHandler() {
-        setCity(filter.city);
-        setCurrentPage(0);
+        setPage(0)
+        search(filter);
         getPosts();
     }
 
     useEffect(() => {
-        getPosts();
-    }, [getPosts]);
+        getPosts(0);
+    }, []);
     return (
         <>
             <Header />
@@ -48,7 +57,7 @@ function Main(props) {
                 <Select
                     lable={'Выберите страну'}
                     items={country}
-                    onchange={setCountry}
+                    onchange={countryHandler}
                     value={filter.country}
                 />
                 <FormControl className={classes.formControl}>
@@ -72,6 +81,7 @@ function Main(props) {
                 <BasicPagination
                     totalPages={totalPages}
                     setCurrentPage={setCurrentPage}
+                    page={page}
                 />
             </div>
         </>
@@ -83,16 +93,15 @@ function mapStateToProps(store) {
         posts: store.posts.posts,
         isLoading: store.posts.isLoading,
         totalPages: store.posts.totalPages,
-        storeFilter: store.search
+        storeFilter: store.search.search
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         getPosts: searh => dispatch(getPosts(searh)),
-        setCurrentPage: page => dispatch(setCurrentPage(page)),
-        setCountry: country => dispatch(setCountry(country)),
-        setCity: city => dispatch(setCity(city))
+        search: val => dispatch(search(val))
     }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
