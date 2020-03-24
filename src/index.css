@@ -42,3 +42,9 @@ code {
 .active {
   text-shadow: 0 0 2px rgb(8, 5, 5);
 }
+
+.message {
+  display: flex;
+  align-items: center;
+  justify-content: center 
+}

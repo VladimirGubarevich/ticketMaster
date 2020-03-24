@@ -21,7 +21,7 @@ export default function posts(state = initialState, action) {
         case 'LOADING':
             return {
                 ...state,
-                isError: action.payload
+                isLoading: action.payload
             }
         case 'SET_CURRENT_PAGE':
             return {

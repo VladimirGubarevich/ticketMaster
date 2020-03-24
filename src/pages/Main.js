@@ -12,6 +12,8 @@ import { getPosts } from '../redux/actions/posts.action';
 import BasicPagination from '../components/BasicPagination';
 import { setLocation } from '../redux/actions/search.action';
 
+import { getPostsSelector, isLoadingSelector, totalPagesSelector, locationSelector } from '../redux/selectors';
+
 const useStyles = makeStyles(theme => ({
     button: {
         margin: theme.spacing(2)
@@ -78,23 +80,27 @@ function Main(props) {
                     posts={posts}
                 />
             </main>
-            <div className='pagination'>
-                <BasicPagination
-                    totalPages={totalPages}
-                    setCurrentPage={setCurrentPage}
-                    page={page}
-                />
-            </div>
+            {posts.length
+                ? <div className='pagination'>
+                    <BasicPagination
+                        totalPages={totalPages}
+                        setCurrentPage={setCurrentPage}
+                        page={page}
+                    />
+                </div>
+                : null
+            }
+
         </>
     );
 }
 
 function mapStateToProps(store) {
     return {
-        posts: store.posts.posts,
-        isLoading: store.posts.isLoading,
-        totalPages: store.posts.totalPages,
-        storeLocation: store.search.location
+        posts: getPostsSelector(store),
+        isLoading: isLoadingSelector(store),
+        totalPages: totalPagesSelector(store),
+        storeLocation: locationSelector(store)
     }
 }
 

@@ -13,6 +13,8 @@ import { familyCategory } from '../enum/familyCategory';
 import { getFamilyPosts } from '../redux/actions/posts.action';
 import { searchFamily, setLocation } from '../redux/actions/search.action';
 
+import { getPostsSelector, isLoadingSelector, totalPagesSelector, locationSelector, familyFilterSelector } from '../redux/selectors';
+
 const useStyles = makeStyles(theme => ({
     button: {
         margin: theme.spacing(2)
@@ -24,6 +26,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export function Family(props) {
+    console.log('Family render')
     const { getFamilyPosts
         , posts
         , isLoading
@@ -122,12 +125,13 @@ export function Family(props) {
 }
 
 function mapStateToProps(store) {
+    console.log('mapStateToProps render')
     return {
-        posts: store.posts.posts,
-        isLoading: store.posts.isLoading,
-        totalPages: store.posts.totalPages,
-        storeFilter: store.search.searchFamily,
-        storeLocation: store.search.location
+        posts: getPostsSelector(store),
+        isLoading: isLoadingSelector(store),
+        totalPages: totalPagesSelector(store),
+        storeFilter: familyFilterSelector(store),
+        storeLocation: locationSelector(store)
     }
 }
 

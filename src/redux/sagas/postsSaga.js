@@ -16,7 +16,8 @@ function* fetchData(page) {
         const search = yield select(getItemsFromState);
         const res = yield call(getPostsByLocal, search.location.country, search.location.city, page.payload);
         yield put(fetchPostsSuccess(res._embedded.events));
-        yield put(getTotalPages(res.page.totalPages))
+        yield put(getTotalPages(res.page.totalPages));
+        yield put(loading(false));
     } catch {
         yield put(loading(false));
         yield put(ErrorFetchData(true));
@@ -35,7 +36,8 @@ function* fetchSportPosts(page) {
         } else {
             yield put(fetchPostsSuccess(result._embedded.events));
         }
-        yield put(getTotalPages(result.page.totalPages))
+        yield put(getTotalPages(result.page.totalPages));
+        yield put(loading(false));
     } catch {
         yield put(loading(false));
         yield put(ErrorFetchData(true));

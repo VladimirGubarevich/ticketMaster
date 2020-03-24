@@ -13,6 +13,8 @@ import { sportCategory } from '../enum/sportCategory.enums';
 import { getSportPosts } from '../redux/actions/posts.action';
 import { searchSports, setLocation } from '../redux/actions/search.action';
 
+import { getPostsSelector, isLoadingSelector, totalPagesSelector, locationSelector, sportsFilterSelector } from '../redux/selectors';
+
 const useStyles = makeStyles(theme => ({
     button: {
         margin: theme.spacing(2)
@@ -127,7 +129,13 @@ function mapStateToProps(store) {
         isLoading: store.posts.isLoading,
         totalPages: store.posts.totalPages,
         storeFilter: store.search.searchSports,
-        storeLocation: store.search.location
+        storeLocation: store.search.location,
+
+        posts: getPostsSelector(store),
+        isLoading: isLoadingSelector(store),
+        totalPages: totalPagesSelector(store),
+        storeFilter: sportsFilterSelector(store),
+        storeLocation: locationSelector(store)
     }
 }
 
