@@ -60,7 +60,6 @@ export function Family(props) {
     function setCurrentPage(page) {
         getFamilyPosts(page);
         setPage(page);
-        filter.page = page;
     }
 
     function buttonHandler() {
