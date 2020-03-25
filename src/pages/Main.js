@@ -80,17 +80,15 @@ function Main(props) {
                     posts={posts}
                 />
             </main>
-            {posts.length
-                ? <div className='pagination'>
+            {isLoading ?
+                null
+                : <div className='pagination'>
                     <BasicPagination
-                        totalPages={totalPages}
                         setCurrentPage={setCurrentPage}
+                        totalPages={totalPages}
                         page={page}
                     />
-                </div>
-                : null
-            }
-
+                </div>}
         </>
     );
 }

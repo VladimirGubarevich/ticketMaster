@@ -56,7 +56,9 @@ function* fetchFamilyPosts(page) {
         } else {
             yield put(fetchPostsSuccess(result._embedded.events));
         }
-        yield put(getTotalPages(result.page.totalPages))
+        yield put(getTotalPages(result.page.totalPages));
+        yield put(loading(false));
+        yield put(ErrorFetchData(true));
     } catch {
         yield put(loading(false));
         yield put(ErrorFetchData(true));

@@ -11,17 +11,22 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function BasicPagination(props) {
-  const { setCurrentPage, page } = props;
+  const { setCurrentPage, page, totalPages } = props;
+  const classes = useStyles();
 
   const handleChange = (event, value) => {
     setCurrentPage(value - 1)
   };
 
-  const classes = useStyles();
-  const { totalPages } = props;
   return (
-    <div className={classes.root}>
-      <Pagination count={totalPages} page={page + 1} color="primary" onChange={handleChange} />
-    </div>
+    <>
+      {
+        totalPages
+          ? <div className={classes.root}>
+            <Pagination count={totalPages} page={page + 1} color="primary" onChange={handleChange} />
+          </div>
+          : null
+      }
+    </>
   );
 }

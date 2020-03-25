@@ -112,25 +112,21 @@ export function Sport(props) {
                 isLoading={isLoading}
                 posts={posts}
             />
-            <div className='pagination'>
-                <BasicPagination
-                    setCurrentPage={setCurrentPage}
-                    totalPages={totalPages}
-                    page={page}
-                />
-            </div>
+            {isLoading ?
+                null
+                : <div className='pagination'>
+                    <BasicPagination
+                        setCurrentPage={setCurrentPage}
+                        totalPages={totalPages}
+                        page={page}
+                    />
+                </div>}
         </>
     );
 }
 
 function mapStateToProps(store) {
     return {
-        posts: store.posts.posts,
-        isLoading: store.posts.isLoading,
-        totalPages: store.posts.totalPages,
-        storeFilter: store.search.searchSports,
-        storeLocation: store.search.location,
-
         posts: getPostsSelector(store),
         isLoading: isLoadingSelector(store),
         totalPages: totalPagesSelector(store),

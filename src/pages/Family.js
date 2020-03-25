@@ -26,7 +26,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export function Family(props) {
-    console.log('Family render')
     const { getFamilyPosts
         , posts
         , isLoading
@@ -113,19 +112,20 @@ export function Family(props) {
                 isLoading={isLoading}
                 posts={posts}
             />
-            <div className='pagination'>
-                <BasicPagination
-                    setCurrentPage={setCurrentPage}
-                    totalPages={totalPages}
-                    page={page}
-                />
-            </div>
+            {isLoading ?
+                null
+                : <div className='pagination'>
+                    <BasicPagination
+                        setCurrentPage={setCurrentPage}
+                        totalPages={totalPages}
+                        page={page}
+                    />
+                </div>}
         </>
     );
 }
 
 function mapStateToProps(store) {
-    console.log('mapStateToProps render')
     return {
         posts: getPostsSelector(store),
         isLoading: isLoadingSelector(store),
