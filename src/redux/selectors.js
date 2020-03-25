@@ -15,9 +15,13 @@ export const locationSelector = store => {
 }
 
 export const familyFilterSelector = store => {
-    return store.search.searchFamily;
+    return store.search.searchInCategoryFamily;
 }
 
 export const sportsFilterSelector = store => {
-    return store.search.searchSports;
+    return store.search.searchInCategorySports;
+}
+
+export const searchSelector = store => {
+    return store.search;
 }

@@ -1,13 +1,15 @@
+import { SET_LOCATION, SEARCH_IN_SPOTRS, SEARCH_IN_FAMILY } from '../types';
+
 const initialState = {
 	location: {
 		country: '',
 		city: ''
 	},
-	searchSports: {
+	searchInCategorySports: {
 		keyword: '',
 		classification: ''
 	},
-	searchFamily: {
+	searchInCategoryFamily: {
 		keyword: '',
 		classification: ''
 	},
@@ -16,20 +18,20 @@ const initialState = {
 
 export default function searchReduser(state = initialState, action) {
 	switch (action.type) {
-		case 'SET_LOCATION':
+		case SET_LOCATION:
 			return {
 				...state,
 				location: action.payload
 			}
-		case 'SEARCH_SPOTRS':
+		case SEARCH_IN_SPOTRS:
 			return {
 				...state,
-				searchSports: action.payload
+				searchInCategorySports: action.payload
 			}
-		case 'SEARCH_FAMILY':
+		case SEARCH_IN_FAMILY:
 			return {
 				...state,
-				searchFamily: action.payload
+				searchInCategoryFamily: action.payload
 			}
 		default:
 			return state

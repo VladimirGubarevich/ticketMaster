@@ -1,18 +1,10 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Pagination from '@material-ui/lab/Pagination';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    '& > *': {
-      marginTop: theme.spacing(2)
-    },
-  },
-}));
+import { paginationStyles } from '../material.styles';
 
 export default function BasicPagination(props) {
-  const { setCurrentPage, page, totalPages } = props;
-  const classes = useStyles();
+  const { setCurrentPage, page, totalPages, isLoading } = props;
+  const classes = paginationStyles();
 
   const handleChange = (event, value) => {
     setCurrentPage(value - 1)
@@ -21,8 +13,8 @@ export default function BasicPagination(props) {
   return (
     <>
       {
-        totalPages
-          ? <div className={classes.root}>
+        totalPages && !isLoading?
+          <div className={classes.root}>
             <Pagination count={totalPages} page={page + 1} color="primary" onChange={handleChange} />
           </div>
           : null

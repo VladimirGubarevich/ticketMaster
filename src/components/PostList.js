@@ -5,7 +5,6 @@ const PostList = props => {
     const { posts } = props;
     return (
         <>
-
             {posts.length
                 ? posts.map(post => <Card
                     name={post.name}

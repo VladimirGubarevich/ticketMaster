@@ -1,20 +1,22 @@
+import { SET_LOCATION, SEARCH_IN_SPOTRS, SEARCH_IN_FAMILY } from '../types';
+
 export function setLocation(val) {
 	return {
-		type: 'SET_LOCATION',
+		type: SET_LOCATION,
 		payload: val
 	}
 }
 
-export function searchSports(val) {
+export function searchInCategorySports(val) {
 	return {
-		type: 'SEARCH_SPOTRS',
+		type: SEARCH_IN_SPOTRS,
 		payload: val
 	}
 }
 
-export function searchFamily(val) {
+export function searchInCategoryFamily(val) {
 	return {
-		type: 'SEARCH_FAMILY',
+		type: SEARCH_IN_FAMILY,
 		payload: val
 	}
 }

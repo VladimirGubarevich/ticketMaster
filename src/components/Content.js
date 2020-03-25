@@ -7,7 +7,8 @@ export default function Content(props) {
 
 	useEffect(() => {
 		setPostsArray(posts);
-	}, [posts])
+	}, [posts]);
+	
 	return (
 		<>
 			{isLoading ? <h4 className='message'>Loading...</h4>

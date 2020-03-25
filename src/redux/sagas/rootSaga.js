@@ -1,11 +1,11 @@
 import { all, fork } from 'redux-saga/effects';
 
-import { watchFetchData, watchSportPosts, watchFamilyPost } from './postsSaga';
+import { watchFetchPostsByLocation, watchFetchSportPosts, watchFetchFamilyPost } from './postsSaga';
 
 export default function* rootSaga() {
     yield all([
-        fork(watchFetchData),
-        fork(watchSportPosts),
-        fork(watchFamilyPost)
+        fork(watchFetchPostsByLocation),
+        fork(watchFetchSportPosts),
+        fork(watchFetchFamilyPost)
     ]);
 }

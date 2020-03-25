@@ -1,45 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl';
+
 import Input from '../components/Input';
 import Select from '../components/Select';
 import Header from '../components/Header';
 import Content from '../components/Content';
-import Button from '@material-ui/core/Button';
+import { formStyles } from '../material.styles';
 import { country } from '../enum/country.enums';
-import { makeStyles } from '@material-ui/core/styles';
-import FormControl from '@material-ui/core/FormControl';
-import BasicPagination from '../components/BasicPagination';
 import { familyCategory } from '../enum/familyCategory';
+import BasicPagination from '../components/BasicPagination';
 import { getFamilyPosts } from '../redux/actions/posts.action';
-import { searchFamily, setLocation } from '../redux/actions/search.action';
-
+import { searchInCategoryFamily, setLocation } from '../redux/actions/search.action';
 import { getPostsSelector, isLoadingSelector, totalPagesSelector, locationSelector, familyFilterSelector } from '../redux/selectors';
 
-const useStyles = makeStyles(theme => ({
-    button: {
-        margin: theme.spacing(2)
-    },
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 250,
-    },
-}));
-
 export function Family(props) {
-    const { getFamilyPosts
-        , posts
-        , isLoading
-        , totalPages
-        , storeFilter
-        , searchFamily
-        , storeLocation
-        , setLocation
+    const {
+        posts,
+        isLoading,
+        totalPages,
+        setLocation,
+        storeFilter,
+        storeLocation,
+        getFamilyPosts,
+        searchInCategoryFamily
     } = props;
 
-    const [page, setPage] = useState(0);
-    const classes = useStyles();
+    const classes = formStyles();
     const filter = { ...storeFilter };
     const location = { ...storeLocation };
+    const [page, setPage] = useState(0);
 
     function classificationHandler(clf) {
         filter.classification = clf;
@@ -64,7 +55,7 @@ export function Family(props) {
 
     function buttonHandler() {
         setPage(0)
-        searchFamily(filter);
+        searchInCategoryFamily(filter);
         setLocation(location);
         getFamilyPosts(0);
     }
@@ -80,14 +71,14 @@ export function Family(props) {
                 <Select
                     lable={'Страна'}
                     items={country}
-                    onchange={countryHandler}
                     value={location.country}
+                    onchange={countryHandler}
                 />
                 <FormControl className={classes.formControl} >
                     <Input
                         label={'Город'}
                         value={location.city}
-                        callback={cityHandler}
+                        inputHandler={cityHandler}
                     />
                 </FormControl>
                 <Select
@@ -98,9 +89,9 @@ export function Family(props) {
                 />
                 <FormControl className={classes.formControl}>
                     <Input
-                        label={'Ключевое слово'}
                         value={filter.keyword}
-                        callback={keywordHandler}
+                        label={'Ключевое слово'}
+                        inputHandler={keywordHandler}
                     />
                 </FormControl>
                 <Button className={classes.button} variant="contained" onClick={buttonHandler} color="primary">
@@ -108,18 +99,18 @@ export function Family(props) {
                 </Button>
             </form>
             <Content
-                isLoading={isLoading}
                 posts={posts}
+                isLoading={isLoading}
+
             />
-            {isLoading ?
-                null
-                : <div className='pagination'>
-                    <BasicPagination
-                        setCurrentPage={setCurrentPage}
-                        totalPages={totalPages}
-                        page={page}
-                    />
-                </div>}
+            <div className='pagination'>
+                <BasicPagination
+                    page={page}
+                    isLoading={isLoading}
+                    totalPages={totalPages}
+                    setCurrentPage={setCurrentPage}
+                />
+            </div>
         </>
     );
 }
@@ -129,16 +120,16 @@ function mapStateToProps(store) {
         posts: getPostsSelector(store),
         isLoading: isLoadingSelector(store),
         totalPages: totalPagesSelector(store),
+        storeLocation: locationSelector(store),
         storeFilter: familyFilterSelector(store),
-        storeLocation: locationSelector(store)
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        getFamilyPosts: searh => dispatch(getFamilyPosts(searh)),
-        searchFamily: val => dispatch(searchFamily(val)),
-        setLocation: val => dispatch(setLocation(val))
+        setLocation: locale => dispatch(setLocation(locale)),
+        getFamilyPosts: numberPage => dispatch(getFamilyPosts(numberPage)),
+        searchInCategoryFamily: filter => dispatch(searchInCategoryFamily(filter))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Family);
