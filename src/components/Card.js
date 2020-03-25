@@ -45,7 +45,7 @@ export default function MeadiaCard(props) {
                 </CardContent>
             </CardActionArea>
             <CardActions>
-                <a href={_links}>Link</a>
+                <a href={_links}>Detail</a>
             </CardActions>
         </Card>
     );

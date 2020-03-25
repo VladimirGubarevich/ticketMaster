@@ -9,64 +9,44 @@ import {
 
 const getItemsFromState = state => state.search;
 
-function* fetchData(page) {
+function* fetchData(callback, queryStr) {
     try {
         yield put(ErrorFetchData(false));
         yield put(loading(true));
-        const search = yield select(getItemsFromState);
-        const res = yield call(getPostsByLocal, search.location.country, search.location.city, page.payload);
-        yield put(fetchPostsSuccess(res._embedded.events));
-        yield put(getTotalPages(res.page.totalPages));
+        const result = yield call(callback, ...queryStr);
+        if (!result._embedded) {
+            yield put(fetchPostsSuccess([]));
+        } else {
+            yield put(fetchPostsSuccess(result._embedded.events));
+        }
+        yield put(getTotalPages(result.page.totalPages));
         yield put(loading(false));
     } catch {
         yield put(loading(false));
         yield put(ErrorFetchData(true));
     }
+}
+
+function* fetchAllPosts(page) {
+    const search = yield select(getItemsFromState);
+    const queryString = [search.location.country, search.location.city, page.payload];
+    yield fetchData(getPostsByLocal, queryString);
 }
 
 function* fetchSportPosts(page) {
-    try {
-        yield put(ErrorFetchData(false));
-        yield put(loading(true));
-        const search = yield select(getItemsFromState);
-        const queryString = [search.searchSports.keyword, search.searchSports.classification, search.location.country, search.location.city, page.payload];
-        let result = yield call(getSportPosts, ...queryString);
-        if (!result._embedded) {
-            yield put(fetchPostsSuccess([]));
-        } else {
-            yield put(fetchPostsSuccess(result._embedded.events));
-        }
-        yield put(getTotalPages(result.page.totalPages));
-        yield put(loading(false));
-    } catch {
-        yield put(loading(false));
-        yield put(ErrorFetchData(true));
-    }
+    const search = yield select(getItemsFromState);
+    const queryString = [search.searchSports.keyword, search.searchSports.classification, search.location.country, search.location.city, page.payload];
+    yield fetchData(getSportPosts, queryString);
 }
 
 function* fetchFamilyPosts(page) {
-    try {
-        yield put(ErrorFetchData(false));
-        yield put(loading(true));
-        const search = yield select(getItemsFromState);
-        const queryString = [search.searchFamily.keyword, search.searchFamily.classification, search.location.country, search.location.city, page.payload];
-        let result = yield call(getFamilyPosts, ...queryString);
-        if (!result._embedded) {
-            yield put(fetchPostsSuccess([]));
-        } else {
-            yield put(fetchPostsSuccess(result._embedded.events));
-        }
-        yield put(getTotalPages(result.page.totalPages));
-        yield put(loading(false));
-        yield put(ErrorFetchData(true));
-    } catch {
-        yield put(loading(false));
-        yield put(ErrorFetchData(true));
-    }
+    const search = yield select(getItemsFromState);
+    const queryString = [search.searchFamily.keyword, search.searchFamily.classification, search.location.country, search.location.city, page.payload];
+    yield fetchData(getFamilyPosts, queryString);
 }
 
 export function* watchFetchData() {
-    yield takeEvery('GET_POSTS', fetchData)
+    yield takeEvery('GET_POSTS', fetchAllPosts)
 }
 
 export function* watchSportPosts() {
