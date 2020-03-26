@@ -44,3 +44,15 @@ export const headerStyles = makeStyles(theme => ({
         minWidth: 250,
     },
 }));
+
+export const preloaderStyles = makeStyles(theme => ({
+  root: {
+      display: 'flex',
+      minHeight: '100vh',
+      alignItems: 'center',
+      justifyContent: 'center',
+      '& > * + *': {
+          marginLeft: theme.spacing(2),
+      },
+  },
+}));

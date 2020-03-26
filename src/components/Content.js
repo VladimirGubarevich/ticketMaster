@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PostList from './PostList';
+import Preloader from './Preloader';
 
 export default function Content(props) {
 	const { isLoading, posts } = props;
@@ -11,7 +12,7 @@ export default function Content(props) {
 	
 	return (
 		<>
-			{isLoading ? <h4 className='message'>Loading...</h4>
+			{isLoading ? <Preloader />
 				: <div className="content-events">
 					<PostList posts={postsArray} />
 				</div>
