@@ -8,7 +8,7 @@ import Select from '../components/Select';
 import Header from '../components/Header';
 import Content from '../components/Content';
 import { formStyles } from '../material.styles';
-import { country } from '../enum/country.enums';
+import { countries } from '../enum/country.enums';
 import { getAllPosts } from '../redux/actions/posts.action';
 import BasicPagination from '../components/BasicPagination';
 import { setLocation } from '../redux/actions/search.action';
@@ -49,9 +49,9 @@ function Main(props) {
             <Header />
             <form className="search-bar">
                 <Select
-                    items={country}
+                    items={countries}
                     value={location.country}
-                    lable={'Выберите страну'}
+                    label={'Выберите страну'}
                     onchange={countryHandler}
                 />
                 <FormControl className={classes.formControl}>

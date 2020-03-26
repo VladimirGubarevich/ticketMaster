@@ -8,7 +8,7 @@ import Select from '../components/Select';
 import Header from '../components/Header';
 import Content from '../components/Content';
 import { formStyles } from '../material.styles';
-import { country } from '../enum/country.enums';
+import { countries } from '../enum/country.enums';
 import BasicPagination from '../components/BasicPagination';
 import { sportCategory } from '../enum/sportCategory.enums';
 import { getSportPosts } from '../redux/actions/posts.action';
@@ -69,8 +69,8 @@ export function Sport(props) {
             <Header />
             <form className="search-bar">
                 <Select
-                    lable={'Страна'}
-                    items={country}
+                    label={'Страна'}
+                    items={countries}
                     onchange={countryHandler}
                     value={location.country}
                 />
@@ -82,7 +82,7 @@ export function Sport(props) {
                     />
                 </FormControl>
                 <Select
-                    lable={'Вид спорта'}
+                    label={'Вид спорта'}
                     items={sportCategory}
                     onchange={classificationHandler}
                     value={filter.classification}

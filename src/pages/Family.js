@@ -8,7 +8,7 @@ import Select from '../components/Select';
 import Header from '../components/Header';
 import Content from '../components/Content';
 import { formStyles } from '../material.styles';
-import { country } from '../enum/country.enums';
+import { countries } from '../enum/country.enums';
 import { familyCategory } from '../enum/familyCategory';
 import BasicPagination from '../components/BasicPagination';
 import { getFamilyPosts } from '../redux/actions/posts.action';
@@ -69,8 +69,8 @@ export function Family(props) {
             <Header />
             <form className="search-bar">
                 <Select
-                    lable={'Страна'}
-                    items={country}
+                    label={'Страна'}
+                    items={countries}
                     value={location.country}
                     onchange={countryHandler}
                 />
@@ -82,7 +82,7 @@ export function Family(props) {
                     />
                 </FormControl>
                 <Select
-                    lable={'Категория'}
+                    label={'Категория'}
                     items={familyCategory}
                     onchange={classificationHandler}
                     value={filter.classification}
