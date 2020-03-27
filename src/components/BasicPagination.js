@@ -3,7 +3,7 @@ import Pagination from '@material-ui/lab/Pagination';
 import { paginationStyles } from '../material.styles';
 
 export default function BasicPagination(props) {
-  const { setCurrentPage, page, totalPages, isLoading } = props;
+  const { setCurrentPage, page, totalPages } = props;
   const classes = paginationStyles();
 
   const handleChange = (event, value) => {
@@ -13,7 +13,7 @@ export default function BasicPagination(props) {
   return (
     <>
       {
-        totalPages && !isLoading?
+        totalPages ?
           <div className={classes.root}>
             <Pagination count={totalPages} page={page + 1} color="primary" onChange={handleChange} />
           </div>

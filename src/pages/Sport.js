@@ -9,11 +9,10 @@ import Header from '../components/Header';
 import Content from '../components/Content';
 import { formStyles } from '../material.styles';
 import { countries } from '../enum/country.enums';
-import BasicPagination from '../components/BasicPagination';
 import { sportCategory } from '../enum/sportCategory.enums';
 import { getSportPosts } from '../redux/actions/posts.action';
 import { searchInCategorySports, setLocation } from '../redux/actions/search.action';
-import { getPostsSelector, isLoadingSelector, totalPagesSelector, locationSelector, sportsFilterSelector } from '../redux/selectors';
+import { getPostsSelector, isLoadingSelector, totalPagesSelector, locationSelector, sportsFilterSelector, isErrorSelector } from '../redux/selectors';
 
 export function Sport(props) {
     const {
@@ -22,6 +21,7 @@ export function Sport(props) {
         totalPages,
         storeFilter,
         setLocation,
+        isFetchError,
         getSportPosts,
         storeLocation,
         searchInCategorySports
@@ -99,17 +99,13 @@ export function Sport(props) {
                 </Button>
             </form>
             <Content
+                page={page}
                 posts={posts}
                 isLoading={isLoading}
+                isError={isFetchError}
+                totalPages={totalPages}
+                setCurrentPage={setCurrentPage}
             />
-            <div className='pagination'>
-                <BasicPagination
-                    page={page}
-                    isLoading={isLoading}
-                    totalPages={totalPages}
-                    setCurrentPage={setCurrentPage}
-                />
-            </div>
         </>
     );
 }
@@ -118,6 +114,7 @@ function mapStateToProps(store) {
     return {
         posts: getPostsSelector(store),
         isLoading: isLoadingSelector(store),
+        isFetchError: isErrorSelector(store),
         totalPages: totalPagesSelector(store),
         storeLocation: locationSelector(store),
         storeFilter: sportsFilterSelector(store),

@@ -56,3 +56,15 @@ export const preloaderStyles = makeStyles(theme => ({
       },
   },
 }));
+
+export const alertStyles = makeStyles(theme => ({
+  root: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+  },
+  message: {
+    justifyContent:'center',
+  }
+}));

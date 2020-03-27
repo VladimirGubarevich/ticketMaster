@@ -25,3 +25,7 @@ export const sportsFilterSelector = store => {
 export const searchSelector = store => {
     return store.search;
 }
+
+export const isErrorSelector = store => {
+    return store.posts.isError;
+}

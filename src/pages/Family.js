@@ -10,10 +10,9 @@ import Content from '../components/Content';
 import { formStyles } from '../material.styles';
 import { countries } from '../enum/country.enums';
 import { familyCategory } from '../enum/familyCategory';
-import BasicPagination from '../components/BasicPagination';
 import { getFamilyPosts } from '../redux/actions/posts.action';
 import { searchInCategoryFamily, setLocation } from '../redux/actions/search.action';
-import { getPostsSelector, isLoadingSelector, totalPagesSelector, locationSelector, familyFilterSelector } from '../redux/selectors';
+import { getPostsSelector, isLoadingSelector, totalPagesSelector, locationSelector, familyFilterSelector, isErrorSelector } from '../redux/selectors';
 
 export function Family(props) {
     const {
@@ -22,6 +21,7 @@ export function Family(props) {
         totalPages,
         setLocation,
         storeFilter,
+        isFetchError,
         storeLocation,
         getFamilyPosts,
         searchInCategoryFamily
@@ -99,18 +99,14 @@ export function Family(props) {
                 </Button>
             </form>
             <Content
+                page={page}
                 posts={posts}
                 isLoading={isLoading}
+                isError={isFetchError}
+                totalPages={totalPages}
+                setCurrentPage={setCurrentPage}
 
             />
-            <div className='pagination'>
-                <BasicPagination
-                    page={page}
-                    isLoading={isLoading}
-                    totalPages={totalPages}
-                    setCurrentPage={setCurrentPage}
-                />
-            </div>
         </>
     );
 }
@@ -119,6 +115,7 @@ function mapStateToProps(store) {
     return {
         posts: getPostsSelector(store),
         isLoading: isLoadingSelector(store),
+        isFetchError: isErrorSelector(store),
         totalPages: totalPagesSelector(store),
         storeLocation: locationSelector(store),
         storeFilter: familyFilterSelector(store),

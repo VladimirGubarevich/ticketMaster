@@ -16,8 +16,9 @@ function* fetchData(callback, queryStr) {
         }
         yield put(getTotalPages(result.page.totalPages));
         yield put(loading(false));
-    } catch {
+    } catch(e) {
         yield put(loading(false));
+        console.error(e);
         yield put(ErrorFetchData(true));
     }
 }

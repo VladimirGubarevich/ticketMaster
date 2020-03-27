@@ -1,8 +1,11 @@
 import React from 'react';
 import Card from './Card';
+import Alert from '@material-ui/lab/Alert';
+import { alertStyles } from '../material.styles';
 
 const PostList = props => {
     const { posts } = props;
+    const classes = alertStyles();
     return (
         <>
             {posts.length
@@ -15,7 +18,10 @@ const PostList = props => {
                     _links={post.url}
                     key={post.id}
                 />)
-                : <h4 className="message">Not found</h4>}
+                : <div className={classes.root}>
+                    <Alert severity="info" className={classes.message}>Not found</Alert>
+                </div>
+            }
         </>
     );
 }

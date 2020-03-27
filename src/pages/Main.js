@@ -10,13 +10,12 @@ import Content from '../components/Content';
 import { formStyles } from '../material.styles';
 import { countries } from '../enum/country.enums';
 import { getAllPosts } from '../redux/actions/posts.action';
-import BasicPagination from '../components/BasicPagination';
 import { setLocation } from '../redux/actions/search.action';
 
-import { getPostsSelector, isLoadingSelector, totalPagesSelector, locationSelector } from '../redux/selectors';
+import { getPostsSelector, isLoadingSelector, totalPagesSelector, locationSelector, isErrorSelector } from '../redux/selectors';
 
 function Main(props) {
-    const { getAllPosts, posts, isLoading, totalPages, storeLocation, setLocation } = props;
+    const { getAllPosts, posts, isLoading, totalPages, storeLocation, setLocation, isFetchError } = props;
     const classes = formStyles();
     const location = { ...storeLocation };
     const [page, setPage] = useState(0);
@@ -67,18 +66,14 @@ function Main(props) {
             </form>
             <main>
                 <Content
+                    page={page}
                     posts={posts}
                     isLoading={isLoading}
-                />
-            </main>
-            <div className='pagination'>
-                <BasicPagination
-                    page={page}
-                    isLoading={isLoading}
+                    isError={isFetchError}
                     totalPages={totalPages}
                     setCurrentPage={setCurrentPage}
                 />
-            </div>
+            </main>
         </>
     );
 }
@@ -87,6 +82,7 @@ function mapStateToProps(store) {
     return {
         posts: getPostsSelector(store),
         isLoading: isLoadingSelector(store),
+        isFetchError: isErrorSelector(store),
         totalPages: totalPagesSelector(store),
         storeLocation: locationSelector(store)
     }

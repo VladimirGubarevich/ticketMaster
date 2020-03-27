@@ -36,15 +36,11 @@ code {
 
 .search-bar {
   display: flex;
+  flex-flow: wrap;
   margin-left: 2em;
+ 
 }
 
 .active {
   text-shadow: 0 0 2px rgb(8, 5, 5);
-}
-
-.message {
-  display: flex;
-  align-items: center;
-  justify-content: center 
 }
