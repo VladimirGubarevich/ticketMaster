@@ -3,6 +3,6 @@ import posts from './posts.reducer';
 import search from './search.reducer';
 
 export default combineReducers({
-  posts,
-  search
+  postsReducer: posts,
+  searchReducer: search
 })

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import PostList from './PostList';
 import Preloader from './Preloader';
 import Alert from '@material-ui/lab/Alert';
@@ -41,4 +42,13 @@ export default function Content(props) {
 			}
 		</>
 	)
+}
+
+Content.propTypes = {
+	isLoading: PropTypes.bool,
+	posts: PropTypes.arrayOf(PropTypes.object),
+	isError: PropTypes.bool,
+	page: PropTypes.number,
+	totalPages: PropTypes.number,
+	setCurrentPage: PropTypes.func
 }

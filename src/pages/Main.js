@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
@@ -11,8 +12,8 @@ import { formStyles } from '../material.styles';
 import { countries } from '../enum/country.enums';
 import { getAllPosts } from '../redux/actions/posts.action';
 import { setLocation } from '../redux/actions/search.action';
-
-import { getPostsSelector, isLoadingSelector, totalPagesSelector, locationSelector, isErrorSelector } from '../redux/selectors';
+import { locationSelector } from '../redux/selectors/searchSelectors';
+import { getPostsSelector, isLoadingSelector, totalPagesSelector, isErrorSelector } from '../redux/selectors/postsSelectors';
 
 function Main(props) {
     const { getAllPosts, posts, isLoading, totalPages, storeLocation, setLocation, isFetchError } = props;
@@ -96,3 +97,13 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
+
+Main.propTypes = {
+    getAllPosts: PropTypes.func, 
+    posts: PropTypes.arrayOf(PropTypes.object),
+    isLoading: PropTypes.bool, 
+    totalPages: PropTypes.number, 
+    storeLocation: PropTypes.object, 
+    setLocation: PropTypes.func, 
+    isFetchError: PropTypes.bool
+}

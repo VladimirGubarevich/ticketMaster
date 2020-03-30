@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
@@ -12,7 +13,8 @@ import { countries } from '../enum/country.enums';
 import { familyCategory } from '../enum/familyCategory';
 import { getFamilyPosts } from '../redux/actions/posts.action';
 import { searchInCategoryFamily, setLocation } from '../redux/actions/search.action';
-import { getPostsSelector, isLoadingSelector, totalPagesSelector, locationSelector, familyFilterSelector, isErrorSelector } from '../redux/selectors';
+import { locationSelector, familyFilterSelector } from '../redux/selectors/searchSelectors';
+import { getPostsSelector, isLoadingSelector, totalPagesSelector, isErrorSelector } from '../redux/selectors/postsSelectors';
 
 export function Family(props) {
     const {
@@ -130,3 +132,15 @@ function mapDispatchToProps(dispatch) {
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Family);
+
+Family.propTypes = {
+    posts: PropTypes.arrayOf(PropTypes.object),
+    isLoading: PropTypes.bool,
+    totalPages: PropTypes.number,
+    setLocation: PropTypes.func,
+    storeFilter: PropTypes.object,
+    isFetchError: PropTypes.bool,
+    storeLocation: PropTypes.object,
+    getFamilyPosts: PropTypes.func,
+    searchInCategoryFamily: PropTypes.func
+}

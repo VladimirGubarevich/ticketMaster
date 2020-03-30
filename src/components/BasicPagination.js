@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Pagination from '@material-ui/lab/Pagination';
 import { paginationStyles } from '../material.styles';
 
@@ -21,4 +22,10 @@ export default function BasicPagination(props) {
       }
     </>
   );
+}
+
+BasicPagination.propTypes = {
+  setCurrentPage: PropTypes.func,
+  page: PropTypes.number,
+  totalPages: PropTypes.number
 }

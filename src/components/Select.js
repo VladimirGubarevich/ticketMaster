@@ -1,10 +1,12 @@
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import FormControl from '@material-ui/core/FormControl';
 import { selectStyles } from '../material.styles';
-import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { get } from 'lodash';
 
-export default function Asynchronous(props) {
+export default function Select(props) {
     const { onchange, items, value, label } = props;
     const [open, setOpen] = useState(false);
     const [selectValue, setSelectValue] = useState(null);
@@ -17,26 +19,30 @@ export default function Asynchronous(props) {
         }
     }
 
-    const handleChange = (event, val) => {
-        if (val) {
-            setSelectValue(val);
-            return;
-        }
-        let t = items.find(o => o.name.toLowerCase() === event.target.value);
-        if (t) {
-            setSelectValue(t);
+    const handleChange = (event, value) => {
+        if (value) {
+            setSelectValue(value);
             return;
         }
 
+        const inputValue = items.find(item => item.name.toLowerCase() === get(event, 'target.value', ""));
+        if (inputValue) {
+            setSelectValue(inputValue);
+            return;
+        }
     };
 
     useEffect(() => {
         let item = items.find(item => item.value === value);
-        value && setSelectValue(item);
+        if (value) {
+            setSelectValue(item);
+        }
     }, [value, items]);
 
     useEffect(() => {
-        selectValue && onchange(selectValue.value)
+        if (selectValue) {
+            onchange(selectValue.value)
+        }
     }, [selectValue, onchange]);
 
     return (
@@ -72,4 +78,11 @@ export default function Asynchronous(props) {
             </FormControl>
         </div>
     );
+}
+
+Select.propTypes = {
+    onchange: PropTypes.func,
+    items: PropTypes.array,
+    value: PropTypes.string,
+    label: PropTypes.string
 }

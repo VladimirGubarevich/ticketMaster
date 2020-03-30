@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
@@ -12,7 +13,8 @@ import { countries } from '../enum/country.enums';
 import { sportCategory } from '../enum/sportCategory.enums';
 import { getSportPosts } from '../redux/actions/posts.action';
 import { searchInCategorySports, setLocation } from '../redux/actions/search.action';
-import { getPostsSelector, isLoadingSelector, totalPagesSelector, locationSelector, sportsFilterSelector, isErrorSelector } from '../redux/selectors';
+import { locationSelector, sportsFilterSelector } from '../redux/selectors/searchSelectors';
+import { getPostsSelector, isLoadingSelector, totalPagesSelector, isErrorSelector } from '../redux/selectors/postsSelectors';
 
 export function Sport(props) {
     const {
@@ -130,3 +132,15 @@ function mapDispatchToProps(dispatch) {
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Sport);
+
+Sport.propTypes = {
+    posts: PropTypes.arrayOf(PropTypes.object),
+    isLoading: PropTypes.bool,
+    totalPages: PropTypes.number,
+    storeFilter: PropTypes.object,
+    setLocation: PropTypes.func,
+    isFetchError: PropTypes.bool,
+    getSportPosts: PropTypes.func,
+    storeLocation: PropTypes.object,
+    searchInCategorySports: PropTypes.func
+}

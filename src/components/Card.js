@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import { cardStyles } from '../material.styles';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -38,4 +39,13 @@ export default function MeadiaCard(props) {
             </CardActions>
         </Card>
     );
+}
+
+MeadiaCard.propTypes = {
+    name: PropTypes.string,
+    image: PropTypes.array,
+    country: PropTypes.string,
+    _links: PropTypes.string,
+    city: PropTypes.string,
+    date: PropTypes.string
 }

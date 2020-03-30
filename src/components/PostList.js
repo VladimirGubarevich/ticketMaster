@@ -1,15 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Card from './Card';
 import Alert from '@material-ui/lab/Alert';
 import { alertStyles } from '../material.styles';
+import { isEmpty } from 'lodash';
 
 const PostList = props => {
     const { posts } = props;
     const classes = alertStyles();
     return (
         <>
-            {posts.length
-                ? posts.map(post => <Card
+            {isEmpty(posts)
+                ? <div className={classes.root}>
+                    <Alert severity="info" className={classes.message}>Not found</Alert>
+                </div>
+                : posts.map(post => <Card
                     name={post.name}
                     image={post.images}
                     country={post._embedded.venues[0].country.name}
@@ -18,12 +23,14 @@ const PostList = props => {
                     _links={post.url}
                     key={post.id}
                 />)
-                : <div className={classes.root}>
-                    <Alert severity="info" className={classes.message}>Not found</Alert>
-                </div>
+
             }
         </>
     );
 }
 
 export default PostList;
+
+PostList.propTypes = {
+    posts: PropTypes.arrayOf(PropTypes.object)
+}
