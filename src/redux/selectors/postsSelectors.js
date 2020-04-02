@@ -14,7 +14,12 @@ export const isLoadingSelector = createSelector(
 
 export const totalPagesSelector = createSelector(
     getPostsReducer, 
-    state => state.totalPages
+    state => state.pagination.totalPages
+);
+
+export const paginationSelector = createSelector(
+    getPostsReducer, 
+    state => state.pagination
 );
 
 export const isErrorSelector = createSelector(

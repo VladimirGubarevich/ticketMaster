@@ -1,6 +1,7 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
 import { getSearchReducer } from '../selectors/searchSelectors';
-import {GET_POSTS_BY_LOCATION, GET_SPORT_POSTS, GET_FAMILY_POSTS } from '../types';
+import { paginationSelector } from '../selectors/postsSelectors';
+import { GET_POSTS_BY_LOCATION, GET_SPORT_POSTS, GET_FAMILY_POSTS } from '../types';
 import { getPostsByLocal, getSportPosts, getFamilyPosts } from '../../services/API';
 import { fetchPostsSuccess, ErrorFetchData, loading, getTotalPages } from '../actions/posts.action';
 
@@ -16,33 +17,62 @@ function* fetchData(callback, queryStr) {
         }
         yield put(getTotalPages(result.page.totalPages));
         yield put(loading(false));
-    } catch(e) {
+    } catch (e) {
         yield put(loading(false));
         console.error(e);
         yield put(ErrorFetchData(true));
     }
 }
 
-function* fetchAllPosts(numberPage) {
+// function* fetchAllPosts(numberPage) {
+//     const search = yield select(getSearchReducer);
+//     const { country, city } = search.location;
+//     const queryString = [country, city, numberPage.payload];
+//     yield fetchData(getPostsByLocal, queryString);
+// }
+
+// function* fetchSportPosts(numberPage) {
+//     const search = yield select(getSearchReducer);
+//     const { keyword, classification } = search.searchInCategorySports;
+//     const { country, city } = search.location;
+//     const queryString = [keyword, classification, country, city, numberPage.payload];
+//     yield fetchData(getSportPosts, queryString);
+// }
+
+// function* fetchFamilyPosts(numberPage) {
+//     const search = yield select(getSearchReducer);
+//     const { keyword, classification } = search.searchInCategoryFamily;
+//     const { country, city } = search.location;
+//     const queryString = [keyword, classification, country, city, numberPage.payload];
+//     yield fetchData(getFamilyPosts, queryString);
+// }
+
+function* fetchAllPosts() {
     const search = yield select(getSearchReducer);
+    const pagination = yield select(paginationSelector);
+    const { currentPage, size } = pagination;
     const { country, city } = search.location;
-    const queryString = [country, city, numberPage.payload];
+    const queryString = [country, city, currentPage, size];
     yield fetchData(getPostsByLocal, queryString);
 }
 
-function* fetchSportPosts(numberPage) {
+function* fetchSportPosts() {
     const search = yield select(getSearchReducer);
+    const pagination = yield select(paginationSelector);
+    const { currentPage, size } = pagination;
     const { keyword, classification } = search.searchInCategorySports;
     const { country, city } = search.location;
-    const queryString = [keyword, classification, country, city, numberPage.payload];
+    const queryString = [keyword, classification, country, city, currentPage, size];
     yield fetchData(getSportPosts, queryString);
 }
 
-function* fetchFamilyPosts(numberPage) {
+function* fetchFamilyPosts() {
     const search = yield select(getSearchReducer);
+    const pagination = yield select(paginationSelector);
+    const { currentPage, size } = pagination;
     const { keyword, classification } = search.searchInCategoryFamily;
     const { country, city } = search.location;
-    const queryString = [keyword, classification, country, city, numberPage.payload];
+    const queryString = [keyword, classification, country, city, currentPage, size];
     yield fetchData(getFamilyPosts, queryString);
 }
 
@@ -55,5 +85,5 @@ export function* watchFetchSportPosts() {
 }
 
 export function* watchFetchFamilyPost() {
-    yield takeLatest( GET_FAMILY_POSTS, fetchFamilyPosts)
+    yield takeLatest(GET_FAMILY_POSTS, fetchFamilyPosts)
 }

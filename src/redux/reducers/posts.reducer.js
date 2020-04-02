@@ -4,8 +4,11 @@ const initialState = {
     posts: [],
     isError: false,
     isLoading: false,
-    currentPage: 1,
-    totalPages: null
+    pagination: {
+        currentPage: 0,
+        size: 20,
+        totalPages: null
+    }
 };
 
 export default function posts(state = initialState, action) {
@@ -26,14 +29,21 @@ export default function posts(state = initialState, action) {
                 isLoading: action.payload
             }
         case SET_CURRENT_PAGE:
+            console.log(action.payload)
             return {
                 ...state,
-                currentPage: action.payload
+                pagination: {
+                    ...state.pagination,
+                    currentPage: action.payload
+                }
             }
         case GET_TOTAL_PAGES:
             return {
                 ...state,
-                totalPages: action.payload
+                pagination: {
+                    ...state.pagination,
+                    totalPages: action.payload
+                }
             }
         default:
             return state;

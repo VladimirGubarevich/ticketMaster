@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
@@ -10,16 +10,15 @@ import Header from '../components/Header';
 import Content from '../components/Content';
 import { formStyles } from '../material.styles';
 import { countries } from '../enum/country.enums';
-import { getAllPosts } from '../redux/actions/posts.action';
+import { getAllPosts, setCurrentPage } from '../redux/actions/posts.action';
 import { setLocation } from '../redux/actions/search.action';
 import { locationSelector } from '../redux/selectors/searchSelectors';
-import { getPostsSelector, isLoadingSelector, totalPagesSelector, isErrorSelector } from '../redux/selectors/postsSelectors';
+import { getPostsSelector, isLoadingSelector, paginationSelector, isErrorSelector } from '../redux/selectors/postsSelectors';
 
 function Main(props) {
-    const { getAllPosts, posts, isLoading, totalPages, storeLocation, setLocation, isFetchError } = props;
+    const { getAllPosts, posts, isLoading, storeLocation, setLocation, isFetchError, setCurrentPage, pagination } = props;
     const classes = formStyles();
     const location = { ...storeLocation };
-    const [page, setPage] = useState(0);
 
     function countryHandler(country) {
         location.country = country;
@@ -29,20 +28,14 @@ function Main(props) {
         location.city = city;
     }
 
-    function setCurrentPage(page) {
-        getAllPosts(page);
-        setPage(page);
-    }
-
     function buttonHandler() {
-        setPage(0)
         setLocation(location);
         getAllPosts(0);
     }
 
     useEffect(() => {
-        getAllPosts(0);
-    }, [getAllPosts]);
+        getAllPosts();
+    }, [pagination.currentPage]);
 
     return (
         <>
@@ -67,11 +60,11 @@ function Main(props) {
             </form>
             <main>
                 <Content
-                    page={page}
+                    page={pagination.currentPage}
                     posts={posts}
                     isLoading={isLoading}
                     isError={isFetchError}
-                    totalPages={totalPages}
+                    totalPages={pagination.totalPages}
                     setCurrentPage={setCurrentPage}
                 />
             </main>
@@ -84,7 +77,7 @@ function mapStateToProps(store) {
         posts: getPostsSelector(store),
         isLoading: isLoadingSelector(store),
         isFetchError: isErrorSelector(store),
-        totalPages: totalPagesSelector(store),
+        pagination: paginationSelector(store),
         storeLocation: locationSelector(store)
     }
 }
@@ -92,18 +85,19 @@ function mapStateToProps(store) {
 function mapDispatchToProps(dispatch) {
     return {
         setLocation: locale => dispatch(setLocation(locale)),
-        getAllPosts: numberPage => dispatch(getAllPosts(numberPage))
+        getAllPosts: numberPage => dispatch(getAllPosts(numberPage)),
+        setCurrentPage: page => dispatch(setCurrentPage(page))
     }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
 Main.propTypes = {
-    getAllPosts: PropTypes.func, 
+    getAllPosts: PropTypes.func,
     posts: PropTypes.arrayOf(PropTypes.object),
-    isLoading: PropTypes.bool, 
-    totalPages: PropTypes.number, 
-    storeLocation: PropTypes.object, 
-    setLocation: PropTypes.func, 
+    isLoading: PropTypes.bool,
+    totalPages: PropTypes.number,
+    storeLocation: PropTypes.object,
+    setLocation: PropTypes.func,
     isFetchError: PropTypes.bool
 }

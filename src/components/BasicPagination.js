@@ -8,6 +8,7 @@ export default function BasicPagination(props) {
   const classes = paginationStyles();
 
   const handleChange = (event, value) => {
+    console.log(value)
     setCurrentPage(value - 1)
   };
 
