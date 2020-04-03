@@ -33,7 +33,7 @@ export default function Content(props) {
 					</div>
 					<div className='pagination'>
 						<BasicPagination
-							page={page}
+							page={page + 1} //to correctly display the pagination value
 							totalPages={totalPages}
 							setCurrentPage={setCurrentPage}
 						/>

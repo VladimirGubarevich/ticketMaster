@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
@@ -13,12 +13,32 @@ import { countries } from '../enum/country.enums';
 import { getAllPosts, setCurrentPage } from '../redux/actions/posts.action';
 import { setLocation } from '../redux/actions/search.action';
 import { locationSelector } from '../redux/selectors/searchSelectors';
-import { getPostsSelector, isLoadingSelector, paginationSelector, isErrorSelector } from '../redux/selectors/postsSelectors';
+import {
+    isErrorSelector,
+    getPostsSelector,
+    isLoadingSelector,
+    paginationSelector,
+} from '../redux/selectors/postsSelectors';
 
 function Main(props) {
-    const { getAllPosts, posts, isLoading, storeLocation, setLocation, isFetchError, setCurrentPage, pagination } = props;
+    const {
+        posts,
+        isLoading,
+        pagination,
+        setLocation,
+        getAllPosts,
+        isFetchError,
+        storeLocation,
+        setCurrentPage,
+    } = props;
     const classes = formStyles();
     const location = { ...storeLocation };
+    const [page, setPage] = useState(0);
+
+    function currentPageHandler(value) {
+        setPage(value);
+        setCurrentPage(value - 1); //pagination starts from 1, and request from 0
+    }
 
     function countryHandler(country) {
         location.country = country;
@@ -30,12 +50,19 @@ function Main(props) {
 
     function buttonHandler() {
         setLocation(location);
-        getAllPosts(0);
+        setCurrentPage(0);
+        getAllPosts();
     }
 
     useEffect(() => {
+        setCurrentPage(0);
+        // eslint-disable-next-line
+    }, []);
+
+    useEffect(() => {
         getAllPosts();
-    }, [pagination.currentPage]);
+        // eslint-disable-next-line
+    }, [page]);
 
     return (
         <>
@@ -65,7 +92,7 @@ function Main(props) {
                     isLoading={isLoading}
                     isError={isFetchError}
                     totalPages={pagination.totalPages}
-                    setCurrentPage={setCurrentPage}
+                    setCurrentPage={currentPageHandler}
                 />
             </main>
         </>
@@ -85,8 +112,9 @@ function mapStateToProps(store) {
 function mapDispatchToProps(dispatch) {
     return {
         setLocation: locale => dispatch(setLocation(locale)),
-        getAllPosts: numberPage => dispatch(getAllPosts(numberPage)),
-        setCurrentPage: page => dispatch(setCurrentPage(page))
+        setCurrentPage: page => dispatch(setCurrentPage(page)),
+        getAllPosts: numberPage => dispatch(getAllPosts(numberPage))
+
     }
 }
 

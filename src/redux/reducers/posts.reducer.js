@@ -29,7 +29,6 @@ export default function posts(state = initialState, action) {
                 isLoading: action.payload
             }
         case SET_CURRENT_PAGE:
-            console.log(action.payload)
             return {
                 ...state,
                 pagination: {

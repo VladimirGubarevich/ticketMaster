@@ -8,8 +8,7 @@ export default function BasicPagination(props) {
   const classes = paginationStyles();
 
   const handleChange = (event, value) => {
-    console.log(value)
-    setCurrentPage(value - 1)
+    setCurrentPage(value)
   };
 
   return (
@@ -17,7 +16,7 @@ export default function BasicPagination(props) {
       {
         totalPages ?
           <div className={classes.root}>
-            <Pagination count={totalPages} page={page + 1} color="primary" onChange={handleChange} />
+            <Pagination count={totalPages} page={page} color="primary" onChange={handleChange} />
           </div>
           : null
       }

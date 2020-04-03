@@ -9,24 +9,21 @@ import {
     GET_POSTS_BY_LOCATION
 } from '../types';
 
-export function getAllPosts(pageNumber) {
+export function getAllPosts() {
     return {
-        type: GET_POSTS_BY_LOCATION,
-        payload: pageNumber
+        type: GET_POSTS_BY_LOCATION
     }
 }
 
-export function getSportPosts(pageNumber) {
+export function getSportPosts() {
     return {
-        type: GET_SPORT_POSTS,
-        payload: pageNumber
+        type: GET_SPORT_POSTS
     }
 }
 
-export function getFamilyPosts(pageNumber) {
+export function getFamilyPosts() {
     return {
-        type: GET_FAMILY_POSTS,
-        payload: pageNumber
+        type: GET_FAMILY_POSTS
     }
 }
 

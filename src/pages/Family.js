@@ -11,21 +11,22 @@ import Content from '../components/Content';
 import { formStyles } from '../material.styles';
 import { countries } from '../enum/country.enums';
 import { familyCategory } from '../enum/familyCategory';
-import { getFamilyPosts } from '../redux/actions/posts.action';
+import { getFamilyPosts, setCurrentPage } from '../redux/actions/posts.action';
 import { searchInCategoryFamily, setLocation } from '../redux/actions/search.action';
 import { locationSelector, familyFilterSelector } from '../redux/selectors/searchSelectors';
-import { getPostsSelector, isLoadingSelector, totalPagesSelector, isErrorSelector } from '../redux/selectors/postsSelectors';
+import { isErrorSelector, getPostsSelector, isLoadingSelector, paginationSelector } from '../redux/selectors/postsSelectors';
 
 export function Family(props) {
     const {
         posts,
         isLoading,
-        totalPages,
+        pagination,
         setLocation,
         storeFilter,
         isFetchError,
         storeLocation,
         getFamilyPosts,
+        setCurrentPage,
         searchInCategoryFamily
     } = props;
 
@@ -33,6 +34,11 @@ export function Family(props) {
     const filter = { ...storeFilter };
     const location = { ...storeLocation };
     const [page, setPage] = useState(0);
+
+    function currentPageHandler(value) {
+        setPage(value);
+        setCurrentPage(value - 1); //pagination starts from 1, and request from 0
+    }
 
     function classificationHandler(clf) {
         filter.classification = clf;
@@ -50,21 +56,21 @@ export function Family(props) {
         location.country = country;
     }
 
-    function setCurrentPage(page) {
-        getFamilyPosts(page);
-        setPage(page);
-    }
-
     function buttonHandler() {
-        setPage(0)
         searchInCategoryFamily(filter);
         setLocation(location);
-        getFamilyPosts(0);
+        setCurrentPage(0);
+        getFamilyPosts();
     }
+    useEffect(() => {
+        setCurrentPage(0);
+        // eslint-disable-next-line
+    }, []);
 
     useEffect(() => {
-        getFamilyPosts(0);
-    }, [getFamilyPosts]);
+        getFamilyPosts();
+        // eslint-disable-next-line
+    }, [page]);
 
     return (
         <>
@@ -101,12 +107,12 @@ export function Family(props) {
                 </Button>
             </form>
             <Content
-                page={page}
+                page={pagination.currentPage}  
                 posts={posts}
                 isLoading={isLoading}
                 isError={isFetchError}
-                totalPages={totalPages}
-                setCurrentPage={setCurrentPage}
+                totalPages={pagination.totalPages}
+                setCurrentPage={currentPageHandler}
 
             />
         </>
@@ -118,7 +124,7 @@ function mapStateToProps(store) {
         posts: getPostsSelector(store),
         isLoading: isLoadingSelector(store),
         isFetchError: isErrorSelector(store),
-        totalPages: totalPagesSelector(store),
+        pagination: paginationSelector(store),
         storeLocation: locationSelector(store),
         storeFilter: familyFilterSelector(store),
     }
@@ -127,6 +133,7 @@ function mapStateToProps(store) {
 function mapDispatchToProps(dispatch) {
     return {
         setLocation: locale => dispatch(setLocation(locale)),
+        setCurrentPage: page => dispatch(setCurrentPage(page)),
         getFamilyPosts: numberPage => dispatch(getFamilyPosts(numberPage)),
         searchInCategoryFamily: filter => dispatch(searchInCategoryFamily(filter))
     }

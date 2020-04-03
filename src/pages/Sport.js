@@ -11,21 +11,22 @@ import Content from '../components/Content';
 import { formStyles } from '../material.styles';
 import { countries } from '../enum/country.enums';
 import { sportCategory } from '../enum/sportCategory.enums';
-import { getSportPosts } from '../redux/actions/posts.action';
+import { getSportPosts, setCurrentPage } from '../redux/actions/posts.action';
 import { searchInCategorySports, setLocation } from '../redux/actions/search.action';
 import { locationSelector, sportsFilterSelector } from '../redux/selectors/searchSelectors';
-import { getPostsSelector, isLoadingSelector, totalPagesSelector, isErrorSelector } from '../redux/selectors/postsSelectors';
+import { getPostsSelector, isLoadingSelector, paginationSelector, isErrorSelector } from '../redux/selectors/postsSelectors';
 
 export function Sport(props) {
     const {
         posts,
         isLoading,
-        totalPages,
+        pagination,
         storeFilter,
         setLocation,
         isFetchError,
         getSportPosts,
         storeLocation,
+        setCurrentPage,
         searchInCategorySports
     } = props;
 
@@ -33,6 +34,11 @@ export function Sport(props) {
     const filter = { ...storeFilter };
     const location = { ...storeLocation };
     const [page, setPage] = useState(0);
+
+    function currentPageHandler(value) {
+        setPage(value);
+        setCurrentPage(value - 1); //pagination starts from 1, and request from 0
+    }
 
     function classificationHandler(clf) {
         filter.classification = clf;
@@ -50,21 +56,22 @@ export function Sport(props) {
         location.country = country;
     }
 
-    function setCurrentPage(page) {
-        getSportPosts(page);
-        setPage(page);
-    }
-
     function buttonHandler() {
-        setPage(0)
         searchInCategorySports(filter);
         setLocation(location);
-        getSportPosts(0);
+        setCurrentPage(0);
+        getSportPosts();
     }
 
     useEffect(() => {
-        getSportPosts(0);
-    }, [getSportPosts]);
+        setCurrentPage(0);
+        // eslint-disable-next-line
+    }, []);
+
+    useEffect(() => {
+        getSportPosts();
+        // eslint-disable-next-line
+    }, [page]);
 
     return (
         <>
@@ -101,12 +108,12 @@ export function Sport(props) {
                 </Button>
             </form>
             <Content
-                page={page}
+                page={pagination.currentPage}
                 posts={posts}
                 isLoading={isLoading}
                 isError={isFetchError}
-                totalPages={totalPages}
-                setCurrentPage={setCurrentPage}
+                totalPages={pagination.totalPages}
+                setCurrentPage={currentPageHandler}
             />
         </>
     );
@@ -117,7 +124,7 @@ function mapStateToProps(store) {
         posts: getPostsSelector(store),
         isLoading: isLoadingSelector(store),
         isFetchError: isErrorSelector(store),
-        totalPages: totalPagesSelector(store),
+        pagination: paginationSelector(store),
         storeLocation: locationSelector(store),
         storeFilter: sportsFilterSelector(store),
     }
@@ -126,6 +133,7 @@ function mapStateToProps(store) {
 function mapDispatchToProps(dispatch) {
     return {
         setLocation: locale => dispatch(setLocation(locale)),
+        setCurrentPage: page => dispatch(setCurrentPage(page)),
         getSportPosts: numberPage => dispatch(getSportPosts(numberPage)),
         searchInCategorySports: filter => dispatch(searchInCategorySports(filter))
 

@@ -24,29 +24,6 @@ function* fetchData(callback, queryStr) {
     }
 }
 
-// function* fetchAllPosts(numberPage) {
-//     const search = yield select(getSearchReducer);
-//     const { country, city } = search.location;
-//     const queryString = [country, city, numberPage.payload];
-//     yield fetchData(getPostsByLocal, queryString);
-// }
-
-// function* fetchSportPosts(numberPage) {
-//     const search = yield select(getSearchReducer);
-//     const { keyword, classification } = search.searchInCategorySports;
-//     const { country, city } = search.location;
-//     const queryString = [keyword, classification, country, city, numberPage.payload];
-//     yield fetchData(getSportPosts, queryString);
-// }
-
-// function* fetchFamilyPosts(numberPage) {
-//     const search = yield select(getSearchReducer);
-//     const { keyword, classification } = search.searchInCategoryFamily;
-//     const { country, city } = search.location;
-//     const queryString = [keyword, classification, country, city, numberPage.payload];
-//     yield fetchData(getFamilyPosts, queryString);
-// }
-
 function* fetchAllPosts() {
     const search = yield select(getSearchReducer);
     const pagination = yield select(paginationSelector);
