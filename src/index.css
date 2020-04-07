@@ -37,6 +37,9 @@ code {
 .search-bar {
   display: flex;
   flex-flow: wrap;
+}
+
+.search-bar>div {
   margin-left: 2em;
  
 }

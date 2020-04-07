@@ -10,7 +10,7 @@ export const paginationStyles = makeStyles(theme => ({
 
   export const formStyles = makeStyles(theme => ({
     button: {
-        margin: theme.spacing(2)
+        margin: theme.spacing(1.5)
     },
     formControl: {
         margin: theme.spacing(1),

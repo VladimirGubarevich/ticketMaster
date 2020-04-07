@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-
-import Input from '../components/Input';
-import Select from '../components/Select';
 import Header from '../components/Header';
 import Content from '../components/Content';
-import { formStyles } from '../material.styles';
-import { countries } from '../enum/country.enums';
 import { familyCategory } from '../enum/familyCategory';
 import { getFamilyPosts, setCurrentPage } from '../redux/actions/posts.action';
 import { searchInCategoryFamily, setLocation } from '../redux/actions/search.action';
 import { locationSelector, familyFilterSelector } from '../redux/selectors/searchSelectors';
 import { isErrorSelector, getPostsSelector, isLoadingSelector, paginationSelector } from '../redux/selectors/postsSelectors';
+
+import SearchBar from '../components/SearchBar';
 
 export function Family(props) {
     const {
@@ -30,9 +25,6 @@ export function Family(props) {
         searchInCategoryFamily
     } = props;
 
-    const classes = formStyles();
-    const filter = { ...storeFilter };
-    const location = { ...storeLocation };
     const [page, setPage] = useState(0);
 
     function currentPageHandler(value) {
@@ -40,23 +32,7 @@ export function Family(props) {
         setCurrentPage(value - 1); //pagination starts from 1, and request from 0
     }
 
-    function classificationHandler(clf) {
-        filter.classification = clf;
-    }
-
-    function keywordHandler(word) {
-        filter.keyword = word;
-    }
-
-    function cityHandler(city) {
-        location.city = city;
-    }
-
-    function countryHandler(country) {
-        location.country = country;
-    }
-
-    function buttonHandler() {
+    function buttonHandler(location, filter) {
         searchInCategoryFamily(filter);
         setLocation(location);
         setCurrentPage(0);
@@ -75,37 +51,17 @@ export function Family(props) {
     return (
         <>
             <Header />
-            <form className="search-bar">
-                <Select
-                    label={'Страна'}
-                    items={countries}
-                    value={location.country}
-                    onchange={countryHandler}
-                />
-                <FormControl className={classes.formControl} >
-                    <Input
-                        label={'Город'}
-                        value={location.city}
-                        inputHandler={cityHandler}
-                    />
-                </FormControl>
-                <Select
-                    label={'Категория'}
-                    items={familyCategory}
-                    onchange={classificationHandler}
-                    value={filter.classification}
-                />
-                <FormControl className={classes.formControl}>
-                    <Input
-                        value={filter.keyword}
-                        label={'Ключевое слово'}
-                        inputHandler={keywordHandler}
-                    />
-                </FormControl>
-                <Button className={classes.button} variant="contained" onClick={buttonHandler} color="primary">
-                    Show
-                </Button>
-            </form>
+            <SearchBar
+                countryInput={{ value: storeLocation.country }}
+                cityInput={{ value: storeLocation.city }}
+                keywordInput={{ value: storeFilter.keyword }}
+                categoryInput={{
+                    label: 'Категория',
+                    items: familyCategory,
+                    value: storeFilter.classification
+                }}
+                button={{ handler: buttonHandler }}
+            />
             <Content
                 page={pagination.currentPage}  
                 posts={posts}
