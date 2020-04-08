@@ -11,7 +11,7 @@ const PostList = props => {
     return (
         <>
             {isEmpty(posts)
-                ? <div className={classes.root}>
+                ? <div className={classes.root} data-testid="not_result_message">
                     <Alert severity="info" className={classes.message}>Not found</Alert>
                 </div>
                 : posts.map(post => <Card

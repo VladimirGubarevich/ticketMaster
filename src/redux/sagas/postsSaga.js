@@ -29,7 +29,7 @@ function* fetchAllPosts() {
     const pagination = yield select(paginationSelector);
     const { currentPage, size } = pagination;
     const { country, city } = search.location;
-    const queryString = [country, city, currentPage, size];
+    const queryString = [country, city, currentPage - 1, size];
     yield fetchData(getPostsByLocal, queryString);
 }
 
@@ -39,7 +39,7 @@ function* fetchSportPosts() {
     const { currentPage, size } = pagination;
     const { keyword, classification } = search.searchInCategorySports;
     const { country, city } = search.location;
-    const queryString = [keyword, classification, country, city, currentPage, size];
+    const queryString = [keyword, classification, country, city, currentPage -1 , size];
     yield fetchData(getSportPosts, queryString);
 }
 
@@ -49,7 +49,7 @@ function* fetchFamilyPosts() {
     const { currentPage, size } = pagination;
     const { keyword, classification } = search.searchInCategoryFamily;
     const { country, city } = search.location;
-    const queryString = [keyword, classification, country, city, currentPage, size];
+    const queryString = [keyword, classification, country, city, currentPage - 1, size];
     yield fetchData(getFamilyPosts, queryString);
 }
 

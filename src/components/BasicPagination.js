@@ -15,7 +15,7 @@ export default function BasicPagination(props) {
     <>
       {
         totalPages ?
-          <div className={classes.root}>
+          <div className={`${classes.root} pagination`}>
             <Pagination count={totalPages} page={page} color="primary" onChange={handleChange} />
           </div>
           : null

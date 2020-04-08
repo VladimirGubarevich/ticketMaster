@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
@@ -25,28 +25,21 @@ export function Family(props) {
         searchInCategoryFamily
     } = props;
 
-    const [page, setPage] = useState(0);
-
-    function currentPageHandler(value) {
-        setPage(value);
-        setCurrentPage(value - 1); //pagination starts from 1, and request from 0
-    }
-
     function buttonHandler(location, filter) {
         searchInCategoryFamily(filter);
         setLocation(location);
-        setCurrentPage(0);
+        setCurrentPage(1);
         getFamilyPosts();
     }
     useEffect(() => {
-        setCurrentPage(0);
+        setCurrentPage(1);
         // eslint-disable-next-line
     }, []);
 
     useEffect(() => {
         getFamilyPosts();
         // eslint-disable-next-line
-    }, [page]);
+    }, [pagination.currentPage]);
 
     return (
         <>
@@ -68,7 +61,7 @@ export function Family(props) {
                 isLoading={isLoading}
                 isError={isFetchError}
                 totalPages={pagination.totalPages}
-                setCurrentPage={currentPageHandler}
+                setCurrentPage={setCurrentPage}
 
             />
         </>
@@ -103,6 +96,7 @@ Family.propTypes = {
     setLocation: PropTypes.func,
     storeFilter: PropTypes.object,
     isFetchError: PropTypes.bool,
+    setCurrentPage: PropTypes.func,
     storeLocation: PropTypes.object,
     getFamilyPosts: PropTypes.func,
     searchInCategoryFamily: PropTypes.func

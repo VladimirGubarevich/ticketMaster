@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import '@material-ui/core'; // for some reason, styles for the button do not work without this line
@@ -16,7 +16,7 @@ import {
 
 import SearchBar from '../components/SearchBar';
 
-function Main(props) {
+export function Main(props) {
     const {
         posts,
         isLoading,
@@ -28,28 +28,21 @@ function Main(props) {
         setCurrentPage,
     } = props;
 
-    const [page, setPage] = useState(0);
-
-    function currentPageHandler(value) {
-        setPage(value);
-        setCurrentPage(value - 1); //pagination starts from 1, and request from 0
-    }
-
     function buttonHandler(location) {
         setLocation(location);
-        setCurrentPage(0);
+        setCurrentPage(1);
         getAllPosts();
     }
 
     useEffect(() => {
-        setCurrentPage(0);
+        setCurrentPage(1);
         // eslint-disable-next-line
     }, []);
 
     useEffect(() => {
         getAllPosts();
         // eslint-disable-next-line
-    }, [page]);
+    }, [pagination.currentPage]);
 
     return (
         <>
@@ -66,7 +59,7 @@ function Main(props) {
                     isLoading={isLoading}
                     isError={isFetchError}
                     totalPages={pagination.totalPages}
-                    setCurrentPage={currentPageHandler}
+                    setCurrentPage={setCurrentPage}
                 />
             </main>
         </>

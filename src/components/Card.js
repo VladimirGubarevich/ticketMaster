@@ -12,7 +12,7 @@ export default function MeadiaCard(props) {
     const { name, image, country, _links, city, date } = props;
     const classes = cardStyles();
     return (
-        <Card className={classes.root} p={1}>
+        <Card className={classes.root} p={1} data-testid="post">
             <CardActionArea>
                 <CardMedia
                     className={classes.media}

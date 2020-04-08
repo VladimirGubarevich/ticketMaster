@@ -5,7 +5,7 @@ const initialState = {
     isError: false,
     isLoading: false,
     pagination: {
-        currentPage: 0,
+        currentPage: 1,
         size: 20,
         totalPages: null
     }

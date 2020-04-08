@@ -6,7 +6,7 @@ export default function Preloader() {
     const classes = preloaderStyles();
 
     return (
-        <div className={classes.root}>
+        <div className={classes.root} data-testid="preloader">
             <CircularProgress size={120} />
         </div>
     );

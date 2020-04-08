@@ -31,15 +31,15 @@ export default function SearchBar(props) {
 	}
 
 	useEffect(() => {
-		countryInput && setCountry(countryInput.value);
 		cityInput && setCity(cityInput.value);
 		keywordInput && setKeyword(keywordInput.value);
+		countryInput && setCountry(countryInput.value);
 		categoryInput && setCategory(categoryInput.value);
-		 // eslint-disable-next-line
+		// eslint-disable-next-line
 	}, [])
 
 	return (
-		<form className="search-bar">
+		<form className="search-bar" data-testid="search-bar">
 			{countryInput && <Select
 				items={countries}
 				onchange={setCountry}

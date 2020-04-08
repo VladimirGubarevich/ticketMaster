@@ -17,7 +17,7 @@ export default function Content(props) {
 
 	if (isError) {
 		return (
-			<div className={classes.root}>
+			<div className={classes.root} data-testid="error_message">
 				<Alert severity="error" className={classes.message}>Network Error</Alert>
 			</div>
 		)
@@ -27,18 +27,16 @@ export default function Content(props) {
 		<>
 			{isLoading ? <Preloader />
 				:
-				<>
+				<div data-testid="content">
 					<div className="content-events">
 						<PostList posts={postsArray} />
 					</div>
-					<div className='pagination'>
-						<BasicPagination
-							page={page + 1} //to correctly display the pagination value
-							totalPages={totalPages}
-							setCurrentPage={setCurrentPage}
-						/>
-					</div>
-				</>
+					<BasicPagination
+						page={page}
+						totalPages={totalPages}
+						setCurrentPage={setCurrentPage}
+					/>
+				</div>
 			}
 		</>
 	)

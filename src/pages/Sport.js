@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
@@ -24,29 +24,22 @@ export function Sport(props) {
         searchInCategorySports
     } = props;
 
-    const [page, setPage] = useState(0);
-
-    function currentPageHandler(value) {
-        setPage(value);
-        setCurrentPage(value - 1); //pagination starts from 1, and request from 0
-    }
-
     function buttonHandler(location, filter) {
         searchInCategorySports(filter);
         setLocation(location);
-        setCurrentPage(0);
+        setCurrentPage(1);
         getSportPosts();
     }
 
     useEffect(() => {
-        setCurrentPage(0);
+        setCurrentPage(1);
         // eslint-disable-next-line
     }, []);
 
     useEffect(() => {
         getSportPosts();
         // eslint-disable-next-line
-    }, [page]);
+    }, [pagination.currentPage]);
 
     return (
         <>
@@ -68,7 +61,7 @@ export function Sport(props) {
                 isLoading={isLoading}
                 isError={isFetchError}
                 totalPages={pagination.totalPages}
-                setCurrentPage={currentPageHandler}
+                setCurrentPage={setCurrentPage}
             />
         </>
     );
